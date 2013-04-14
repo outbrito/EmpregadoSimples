@@ -43,7 +43,7 @@
                         <ul class="nav">
                             <li class="active"><a href="#">Home</a></li>
                             <li><a href="#about">Sobre</a></li>
-                            <li><a href="#contact">Contato</a></li>
+                            <li><a href="#contact" data-toggle="modal">Contato</a></li>
                             <!-- 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -141,6 +141,22 @@
             </footer>
 
         </div> <!-- /container -->
+        
+        <!-- Modal -->
+		<div id="contact" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Contato</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>One fine body…</p>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+		    <button class="btn btn-primary">Enviar</button>
+		  </div>
+		</div>
+        
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>

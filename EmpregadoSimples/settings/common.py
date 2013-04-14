@@ -1,4 +1,4 @@
-# Django settings for DomesticoSimples project.
+# Django settings for EmpregadoSimples project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'D:\\Desenvolvimento\\Projetos\\DomesticoSimples\\sqlite.db3',                      # Or path to database file if using sqlite3.
+        'NAME': 'D:\\Desenvolvimento\\Projetos\\EmpregadoSimples\\sqlite.db3',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -102,10 +102,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'DomesticoSimples.urls'
+ROOT_URLCONF = 'EmpregadoSimples.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'DomesticoSimples.wsgi.application'
+WSGI_APPLICATION = 'EmpregadoSimples.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
