@@ -29,20 +29,20 @@ class Calc(object):
    
    
     def init(self, salary, semanal_journey, transport_cost=0, transport_xtimes_day=0, week_days = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab'], extra_hour_perc=50):
-        self.salary = salary
+        self.salary = float(salary)
         
-        if semanal_journey > 44:
+        if int(semanal_journey) > 44:
             raise Exception("A jornada de trabalho semanal não pode ser superior a 44 horas.")
         else:
-            self.semanal_journey = semanal_journey
+            self.semanal_journey = int(semanal_journey)
         
         if len(week_days) > 6:
             raise Exception("Funcionário deve ter, obrigatoriamente, um dia de folga na semana.")
         else:
             self.week_days = week_days
         
-        self.transport_cost = transport_cost
-        self.transport_xtimes_day = transport_xtimes_day
+        self.transport_cost = float(transport_cost)
+        self.transport_xtimes_day = int(transport_xtimes_day)
         self.extra_hour_perc = float(extra_hour_perc)
         
     
@@ -86,11 +86,11 @@ class Calc(object):
     
     
     def inss(self):
-        return self.salary * .12
+        return self.salary * .20
     
     
     def inss_employee(self):
-        #TODO: Jogar essalógica pra uma tabela no banco pra evitar alterar código quando as aliquotas mudarem
+        #TODO: Jogar essa lógica pra uma tabela no banco pra evitar alterar código quando as aliquotas mudarem
         if self.salary <= 1247.70:
             ret = self.salary * .08 
         elif self.salary > 1247.70 and self.salary <= 2079.50:
@@ -98,21 +98,31 @@ class Calc(object):
         elif self.salary > 2079.50 and self.salary <= 4159:
             ret = self.salary * .11
         else:
-            #TODO: checar o que acontece se eu receber mais que 4.159,00
-            ret = self.salary * .12
+            ret = 4159 * .11
+            
         return ret
     
     
     def inss_employer(self):
-        return self.inss() - self.inss_employee()
+        #TODO: Jogar essa lógica pra uma tabela no banco pra evitar alterar código quando as aliquotas mudarem
+        if self.salary <= 1247.70:
+            ret = self.salary * .12 
+        elif self.salary > 1247.70 and self.salary <= 2079.50:
+            ret = self.salary * .11
+        elif self.salary > 2079.50 and self.salary <= 4159:
+            ret = self.salary * .9
+        else:
+            ret = 4159 * .9
+            
+        return ret
     
     
     def fgts(self):
-        return self.salary * .12
+        return self.salary * .08
     
 if __name__ == "__main__":
     c = Calc()
-    c.init(1627.89, 44, transport_cost=2.3, transport_xtimes_day=2)
+    c.init(678, 44, transport_cost=2.3, transport_xtimes_day=2)
     
     print "----------------- Rendimentos ---------------------"
     print "Salário Bruto: %.2f" %c.salary
@@ -126,3 +136,4 @@ if __name__ == "__main__":
     print "INSS: %.2f " %c.inss()
     print "--Parcela empregado: %.2f " %c.inss_employee()
     print "--Parcela empregador: %.2f " %c.inss_employer()
+    print "FGTS: %.2f " %c.fgts()

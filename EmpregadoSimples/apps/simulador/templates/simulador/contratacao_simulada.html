@@ -1,0 +1,46 @@
+<table border=1>
+	<thead>
+		<tr>
+			<th colspan="4"> Simulação de Contratação </th>
+		</tr>
+		<tr>
+			<th colspan="2"> Empregado </th>
+			<th colspan="2"> EmpregadoR </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	    	<td colspan="4">Transporte Mensal: {{ calc.transport_month|floatformat:2 }}</td>
+	    </tr>
+	    <tr>
+	    	<td> Desconto no Salário </td>
+	    	<td> {{ calc.transport_discount|floatformat:2 }} </td>
+	    	<td> Parcela Empregador </td>
+	    	<td> {{ calc.transport_employer|floatformat:2 }} </td>
+	    </tr>
+	    <tr>
+	    	<td colspan="4">INSS: {{ calc.inss|floatformat:2 }}</td>
+	    </tr>
+	    <tr>
+	    	<td> Desconto no Salário </td>
+	    	<td> {{ calc.inss_employee|floatformat:2 }} </td>
+	    	<td> Parcela Empregador </td>
+	    	<td> {{ calc.inss_employer|floatformat:2 }} </td>
+	    </tr>
+	    <tr>
+	    	<td colspan="4">FGTS: {{ calc.fgts|floatformat:2 }}</td>
+	    </tr>
+	    <tr>
+	    	<td> Desconto no Salário </td>
+	    	<td> - </td>
+	    	<td> Parcela Empregador </td>
+	    	<td> {{ calc.fgts|floatformat:2 }} </td>
+	    </tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="2"> Salário Recebido: </td>
+			<td colspan="2"> Gasto Total: </td>
+		</tr>
+	</tfoot>	
+</table>

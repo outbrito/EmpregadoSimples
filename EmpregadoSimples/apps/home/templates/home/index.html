@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+		{% block container %}
+            <!-- Main hero unit for a primary marketing message or call to action -->
+            <div class="hero-unit">
+                <h1>Bem vindo ao EmpregadoSimples!</h1>
+                <p>Nosso site está em construção. Em breve estaremos fornecendo uma ferramenta completa para você, empregador, gerenciar todos os dados e obrigações legais para com seu empregado.</p>
+                <!-- <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p> -->
+                <p><a class="btn btn-primary btn-large">Em breve...</a></p>
+            </div>
+
+            <!-- Example row of columns -->
+            <div class="row">
+                <div class="span3">
+                    <h2>Simule</h2>
+                    <p>Utilize nosso simulador de contratação e planeje <b>mensalmente</b> e <b>anualmente</b>, todos os seus gastos com seu novo empregado.</p>
+                    <!-- <p><a class="btn" href="#">Saiba mais &raquo;</a></p> -->
+                    <p><a class="btn" href="#simulador"  data-toggle="modal">Teste agora!</a></p>
+                </div>
+                <div class="span3">
+                    <h2>Cadastre-se</h2>
+                    <p>Domésticas, jardineiros, motoristas, babás, cuidadores de idosos, governantas, mordomos... Seja qual for o seu empregado, fornecemos:
+                    	<ul>
+                    		<li>Modelos de documentos</li>
+                    		<li>Contratos</li>
+                    		<li>Ponto de Trabalho</li>
+                    		<li>Declarações</li>
+                    		<li>E muito mais...</li>
+                    	</ul>
+                    	Tudo personalizado para a sua necessidade (e de seu empregado) e a uma mensalidade que cabe no seu bolso. </p>
+                    <!-- <p><a class="btn" href="#">Saiba mais &raquo;</a></p> -->
+                    <p><a class="btn" href="#">Em breve...</a></p>
+                </div>
+                <div class="span3">
+                    <h2>Salários, Descontos e Benefícios</h2>
+                    <p>Gerencie o pagamento do salário e dos benefícios exigidos por lei para cada empregado cadastrado. 
+                    	<ul>
+                    		<li>Previdência Social (INSS)</li>
+                    		<li>Imposto de Renda na Fonte (IRRF)</li>
+                    		<li>Vale Transporte</li>
+                    		<li>Descanso Semanal Remunerado (DSR)</li>
+                    		<li>Salário Família</li>
+                    		<li>Auxílio Creche</li>
+                    		<li>Licença Maternidade/Paternidade</li>
+                    	</ul>
+                    </p>
+                    <!-- <p><a class="btn" href="#">Saiba mais &raquo;</a></p> -->
+                    <p><a class="btn" href="#">Em breve...</a></p>
+               </div>
+                <div class="span3">
+                    <h2>Notificações</h2>
+                    <p>Receba notificações em seu e-mail para não esquecer de realizar os pagamentos e evitar multas:
+                    	<ul>
+                    		<li>Fechamento de mês</li>
+                    		<li>Checagem de ponto</li>
+                    		<li>Vencimento de férias</li>
+                    		<li>Pagamento do 13º salário</li>
+                    	</ul>
+                    </p>
+                    <!-- <p><a class="btn" href="#">Saiba mais &raquo;</a></p> -->
+                    <p><a class="btn" href="#">Em breve...</a></p>
+                </div>
+		{% endblock %}
+        
+    	{% block modal %}            
+        <!-- Modal -->
+		<div id="contact" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Contato</h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>One fine body…</p>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+		    <button class="btn btn-primary">Enviar</button>
+		  </div>
+		</div>
+		
+		<div id="simulador" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		</div>
+		{% endblock %}

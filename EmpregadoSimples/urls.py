@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
@@ -6,8 +8,8 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'DomesticoSimples.views.home', name='home'),
-    # url(r'^DomesticoSimples/', include('DomesticoSimples.foo.urls')),
+     url(r'^simulador/', include('EmpregadoSimples.apps.simulador.urls')),
+     url(r'^$', include('EmpregadoSimples.apps.home.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
