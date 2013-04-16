@@ -14,8 +14,7 @@
                 <div class="span3">
                     <h2>Simule</h2>
                     <p>Utilize nosso simulador de contratação e planeje <b>mensalmente</b> e <b>anualmente</b>, todos os seus gastos com seu novo empregado.</p>
-                    <!-- <p><a class="btn" href="#">Saiba mais &raquo;</a></p> -->
-                    <p><a class="btn" href="#simulador"  data-toggle="modal">Teste agora!</a></p>
+                    <p><a class="btn" href="#simulador" data-remote="{% url 'EmpregadoSimples.apps.simulador.views.simulate_contract' %}" data-toggle="modal">Acesse agora &raquo;</a></p>
                 </div>
                 <div class="span3">
                     <h2>Cadastre-se</h2>
@@ -79,5 +78,15 @@
 		</div>
 		
 		<div id="simulador" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Simulador de Contratação</h3>
+		  </div>
+		  <div class="modal-body">
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+		    <button id="simular" class="btn btn-primary" onClick="simular()">Simular</button>
+		  </div>
 		</div>
 		{% endblock %}
