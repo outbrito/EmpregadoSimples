@@ -3,6 +3,8 @@ from common import *
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+ALLOWED_HOSTS = ['0.0.0.0']
+
 EMAIL_HOST = 'empregadosimples.com'
 EMAIL_HOST_USER = 'contato'
 EMAIL_HOST_PASSWORD = 'cabritagem@123'
