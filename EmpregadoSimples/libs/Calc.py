@@ -61,7 +61,7 @@ class Calc(object):
         return ((self.transport_cost * self.transport_xtimes_day) * (len(self.week_days) * 5))
     
     
-    def transport_discount(self):
+    def transport_employee(self):
         transport_cost = self.transport_month()
         discount = self.salary * 0.06
         
@@ -85,6 +85,22 @@ class Calc(object):
         return ret
     
     
+    def salary_employee(self):
+        return self.salary
+    
+    
+    def salary_employer(self):
+        return self.salary * -1
+    
+    
+    def vacation_employee(self):
+        return self.salary/3
+    
+    
+    def vacation_employer(self):
+        return (self.salary/3) * -1
+    
+    
     def inss(self):
         return self.salary * .20
     
@@ -100,7 +116,7 @@ class Calc(object):
         else:
             ret = 4159 * .11
             
-        return ret
+        return ret * -1
     
     
     def inss_employer(self):
@@ -114,11 +130,32 @@ class Calc(object):
         else:
             ret = 4159 * .9
             
-        return ret
+        return ret * -1
+    
+    
+    def fgts_employer(self):
+        return self.salary * .08 * -1
     
     
     def fgts(self):
         return self.salary * .08
+    
+    
+    def total_month_employer(self):
+        return self.salary_employer() + self.inss_employer() + self.fgts_employer() + self.transport_employer()
+    
+    
+    def total_month_employee(self):
+        return self.salary_employee() + self.inss_employee() + self.transport_employee()
+    
+    
+    def total_year_employer(self):
+        return self.salary_employer() + self.inss_employer() + self.vacation_employer()
+    
+    
+    def total_year_employee(self):
+        return self.salary_employee() + self.inss_employee() + self.vacation_employee()
+    
     
 if __name__ == "__main__":
     c = Calc()

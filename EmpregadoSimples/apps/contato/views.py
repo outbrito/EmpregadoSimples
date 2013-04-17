@@ -8,7 +8,9 @@ def contato(request):
         nome= request.POST.get('nome','')
         msg = request.POST.get('msg','')
         email = EmailMessage('Contato Empregado Simples',
-                            'Nome: ' + nome +'\nEmail: ' + email + '\n Mensagem:\n ' + msg,
-                            to=['tpborion@gmail.com', 'ionaysilva@gmail.com'])
+                    'Nome: ' + nome +'\n\nMensagem:\n ' + msg,
+                    from_email=email,
+                    to=['contato@empregadosimples.com'])
+
         if email.send() == 1:
             return HttpResponse("Mensagem Enviada com Sucesso!")

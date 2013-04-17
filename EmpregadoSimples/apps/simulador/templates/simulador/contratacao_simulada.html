@@ -1,46 +1,84 @@
-<table border=1>
+<table class="table table-bordered">
 	<thead>
-		<tr>
-			<th colspan="4"> Simulação de Contratação </th>
+		<tr class="warning">
+			<th colspan="6"><p class="text-center">Gastos Mensais</p></th>
 		</tr>
-		<tr>
-			<th colspan="2"> Empregado </th>
-			<th colspan="2"> EmpregadoR </th>
+		<tr class="warning">
+			<th></th>
+			<th colspan="2"><p class="text-center">Empregador</p></th>
+			<th colspan="2"><p class="text-center">Empregado</p></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-	    	<td colspan="4">Transporte Mensal: {{ calc.transport_month|floatformat:2 }}</td>
-	    </tr>
-	    <tr>
-	    	<td> Desconto no Salário </td>
-	    	<td> {{ calc.transport_discount|floatformat:2 }} </td>
-	    	<td> Parcela Empregador </td>
-	    	<td> {{ calc.transport_employer|floatformat:2 }} </td>
-	    </tr>
-	    <tr>
-	    	<td colspan="4">INSS: {{ calc.inss|floatformat:2 }}</td>
-	    </tr>
-	    <tr>
-	    	<td> Desconto no Salário </td>
-	    	<td> {{ calc.inss_employee|floatformat:2 }} </td>
-	    	<td> Parcela Empregador </td>
-	    	<td> {{ calc.inss_employer|floatformat:2 }} </td>
-	    </tr>
-	    <tr>
-	    	<td colspan="4">FGTS: {{ calc.fgts|floatformat:2 }}</td>
-	    </tr>
-	    <tr>
-	    	<td> Desconto no Salário </td>
-	    	<td> - </td>
-	    	<td> Parcela Empregador </td>
-	    	<td> {{ calc.fgts|floatformat:2 }} </td>
-	    </tr>
-	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="2"> Salário Recebido: </td>
-			<td colspan="2"> Gasto Total: </td>
+			<td><p class="text-left">Salário</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.salary_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-info">{{ calc.salary_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"></p></td>
 		</tr>
-	</tfoot>	
+		<tr>
+			<td><p class="text-left"><abbr title="Instituto Nacional de Segurança Social" class="initialism">INSS</abbr></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.inss_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.inss_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"> = {{ calc.inss|floatformat:2 }}</p></td>
+		</tr>
+		<tr>
+			<td><p class="text-left"><abbr title="Fundo de Garantia por Tempo de Serviço" class="initialism">FGTS</abbr></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.fgts_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center"></p></td>
+			<td><p class="text-left"> = {{ calc.fgts|floatformat:2 }}</p></td>
+		</tr>
+		<tr>
+			<td><p class="text-left">Transporte</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.transport_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.transport_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"> = {{ calc.transport_month|floatformat:2 }}</p></td>
+		</tr>
+		<tr class="warning">
+			<td><p class="text-left"><b>Total</b></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.total_month_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-info">{{ calc.total_month_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"></p></td>
+		</tr>
+	</tbody>
+</table>
+<table class="table table-bordered">
+	<thead>
+		<tr class="warning">
+			<th colspan="6"><p class="text-center">Gastos Anuais</p></th>
+		</tr>
+		<tr class="warning">
+			<th></th>
+			<th colspan="2"><p class="text-center">Empregador</p></th>
+			<th colspan="2"><p class="text-center">Empregado</p></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><p class="text-left">13º Salário</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.salary_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-info">{{ calc.salary_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"></p></td>
+		</tr>
+		<tr>
+			<td><p class="text-left"><abbr title="Instituto Nacional de Segurança Social" class="initialism">INSS</abbr> 13º</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.inss_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.inss_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"> = {{ calc.inss|floatformat:2 }}</p></td>
+		</tr>
+		<tr>
+			<td><p class="text-left">1/3 de Férias</p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.vacation_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-info">{{ calc.vacation_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"></p></td>
+		</tr>
+		<tr class="warning">
+			<td><p class="text-left"><b>Total</b></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.total_year_employer|floatformat:2 }}</p></td>
+			<td colspan="2"><p class="text-center text-info">{{ calc.total_year_employee|floatformat:2 }}</p></td>
+			<td><p class="text-left"></p></td>
+		</tr>
+	</tbody>
 </table>
