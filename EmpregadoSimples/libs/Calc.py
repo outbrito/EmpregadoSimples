@@ -70,7 +70,7 @@ class Calc(object):
         else:
             ret = discount
             
-        return ret
+        return ret * -1
     
     
     def transport_employer(self):
@@ -82,7 +82,7 @@ class Calc(object):
         else:
             ret = 0
             
-        return ret
+        return ret * -1
     
     
     def salary_employee(self):
@@ -167,7 +167,7 @@ if __name__ == "__main__":
     print "--Valor da hora extra: %.2f" %c.extra_hour()
     print "\n----------------- Transporte ----------------------"
     print "Total mensal de transporte: %.2f" %c.transport_month()
-    print "--Desconto de transporte: %.2f" %c.transport_discount()
+    print "--Desconto de transporte: %.2f" %c.transport_employee()
     print "--Transporte para o empregador: %.2f" %c.transport_employer()
     print "\n----------------- Previdência ---------------------"
     print "INSS: %.2f " %c.inss()

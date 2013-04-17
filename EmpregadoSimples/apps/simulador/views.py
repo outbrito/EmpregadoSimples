@@ -30,7 +30,7 @@ def simulated_contract(request):
         transport_cost = request.POST.get('custo_transporte', 0) or 0
         transport_xtimes_day = request.POST.get('transporte_por_dia', 0) or 0
         week_days = request.POST.get('dias_semana', 0) or 0
-        
+        print salary, semanal_journey, transport_cost, transport_xtimes_day
         calc.init(salary, semanal_journey, transport_cost, transport_xtimes_day)
         
     return render_to_response("simulador/contratacao_simulada.html",
