@@ -31,10 +31,10 @@
 					$.post("{% url 'EmpregadoSimples.apps.contato.views.contato_enviar' %}",
 							"csrfmiddlewaretoken=" + token + "&nome=" + nome + "&email=" + email + "&msg=" + msg,
 							function(data){
-								$("#contato .modal-body").html(data);
+								$("#contact .modal-body").html(data.responseText);
 								$("#enviar_msg").hide();
 							}).error(function(data){
-								window.open().document.write(data.responseText);
+								$("#contact .modal-body").html(data.responseText);
 							});
 				}
 			  </script>

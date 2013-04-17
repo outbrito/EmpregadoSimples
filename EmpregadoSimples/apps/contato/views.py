@@ -1,6 +1,6 @@
 # Create your views here.
 from django.core.mail import EmailMessage
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseServerError
 from django.shortcuts import render_to_response, RequestContext
 
 
@@ -22,3 +22,5 @@ def contato_enviar(request):
 
         if email.send() == 1:
             return HttpResponse("Mensagem Enviada com Sucesso!")
+        else:
+            return HttpResponseServerError("Erro ao enviar mensagem.")
