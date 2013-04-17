@@ -16,4 +16,5 @@ from django.shortcuts import RequestContext
 def home(request):
     return render_to_response("home/index.html",
                               {},
-                              context_instance=RequestContext(request))
+                              context_instance=RequestContext(request)
+                              )

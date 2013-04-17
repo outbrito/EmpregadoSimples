@@ -1,0 +1,40 @@
+			{% csrf_token %}
+			<div class="row">
+				<div class="span3">
+				  <div class="input-prepend">
+				    <span class="add-on"><i class="icon-user"></i></span>
+					<input type="text" id="nome" name="nome" placeholder="Seu nome..."/>
+				  </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span3">
+					<div class="input-prepend">
+				      <span class="add-on"><i class="icon-envelope"></i></span>
+				      <input type="email" id="email" name="email" placeholder="Seu e-mail..."/>
+				    </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span3">
+					<textarea class="span3" id="msg" rows="3" name="msg" placeholder="Sua mensagem..."></textarea>
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+				function enviar_mensagem(){
+					var token = $("[name=csrfmiddlewaretoken]").val();
+					var nome = $("#nome").val();
+					var email = $("#email").val();
+					var msg = $("#msg").val();
+					
+					$.post("{% url 'EmpregadoSimples.apps.contato.views.contato_enviar' %}",
+							"csrfmiddlewaretoken=" + token + "&nome=" + nome + "&email=" + email + "&msg=" + msg,
+							function(data){
+								$("#contato .modal-body").html(data);
+								$("#enviar_msg").hide();
+							}).error(function(data){
+								window.open().document.write(data.responseText);
+							});
+				}
+			  </script>

@@ -1,8 +1,16 @@
 # Create your views here.
 from django.core.mail import EmailMessage
 from django.http.response import HttpResponse
+from django.shortcuts import render_to_response, RequestContext
 
-def contato(request):
+
+def form_contato(request):
+    return render_to_response("contato/form_contato.html",
+                              context_instance=RequestContext(request)
+                              )
+
+
+def contato_enviar(request):
     if  request.method == 'POST':
         email= request.POST.get('email', '')
         nome= request.POST.get('nome','')

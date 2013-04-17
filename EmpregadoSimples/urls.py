@@ -9,6 +9,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     # Examples:
      url(r'^simulador/', include('EmpregadoSimples.apps.simulador.urls')),
+     url(r'^contato/', include('EmpregadoSimples.apps.contato.urls')),
      url(r'^$', include('EmpregadoSimples.apps.home.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
