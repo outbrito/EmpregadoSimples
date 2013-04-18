@@ -1,4 +1,5 @@
 *.log
+*.bat
 manage_live.py[cod]
 *.py[cod]
 
