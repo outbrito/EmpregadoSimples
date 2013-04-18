@@ -144,6 +144,11 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        }
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -155,15 +160,16 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'console':{
+        'file':{
             'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'class': 'logging.FileHandler',
+            'filename': os.path.abspath(os.path.join(os.path.dirname( __file__ ), os.path.pardir, os.path.pardir , 'EmpregadoSimples.log')),
+            'formatter': 'verbose'
         },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['console', 'mail_admins'],
+            'handlers': ['file', 'mail_admins'],
             'level': 'ERROR',
             'propagate': True,
         },
