@@ -3,7 +3,7 @@ from common import *
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['empregadosimples.com']
 
 EMAIL_HOST = 'empregadosimples.com'
 EMAIL_HOST_USER = 'contato'
