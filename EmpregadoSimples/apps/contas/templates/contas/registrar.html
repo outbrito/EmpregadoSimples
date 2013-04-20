@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+		{% block container %}
+		  <form method="POST" action="{% url 'EmpregadoSimples.apps.contas.views.registrar' %}">
+			{% csrf_token %}
+			{% if message %}
+			<div class="alert alert-error">
+			  <p><b> {{ message }} </b></p>
+			</div>
+			{% endif %}
+			<div class="page-header">
+			  <h4>Dados de Usuário</h4>
+			</div>
+			<div class="row">
+				<div class="span3">
+				  <div class="input-prepend">
+				    <span class="add-on"><i class="icon-user"></i></span>
+					<input type="text" id="username" name="username" placeholder="Digite seu nome de usuário..." value="{{ username }}" required />
+				  </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span3">
+				  <div class="input-prepend">
+				    <span class="add-on"><i class="icon-lock"></i></span>
+					<input type="password" id="password" name="password" placeholder="Digite sua senha..." required onchange="form.password2.pattern = this.value;"/>
+				  </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span3">
+				  <div class="input-prepend">
+				    <span class="add-on"><i class="icon-lock"></i></span>
+					<input type="password" id="password2" name="password2" placeholder="Confirme sua senha..." required/>
+				  </div>
+				</div>
+			</div>
+			
+			<div class="page-header">
+			  <h4>Dados de Pessoais</h4>
+			</div>
+			<div class="row">
+				<div class="span6">
+					<div class="input-prepend">
+				      <span class="add-on"><i class="icon-font"></i></span>
+				      <input type="text" id="nome" name="nome" placeholder="Nome..."  value="{{ nome }}" required/>
+				    </div>
+                    <input type="text" id="sobrenome" name="sobrenome" placeholder="Sobrenome..."  value="{{ sobrenome }}"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span3">
+					<div class="input-prepend">
+				      <span class="add-on"><i class="icon-envelope"></i></span>
+				    </div>
+			        <input type="email" id="email" name="email" placeholder="Seu e-mail..." required/>
+				</div>
+			</div>
+			
+			<div class="form-actions">
+			  <a type="button" class="btn" href="{% url 'EmpregadoSimples.apps.home.views.home' %}">Cancelar</a>
+			  <button type="submit" class="btn btn-primary">Finalizar Cadastro</button>
+			</div>
+		  </form>
+		{% endblock %}

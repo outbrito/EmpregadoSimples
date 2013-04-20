@@ -43,7 +43,7 @@
                     <a class="brand" href="#">EmpregadoSimples</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li class="active"><a href="#">Home</a></li>
+                            <li class="active"><a href="{% url 'EmpregadoSimples.apps.home.views.home' %}">Home</a></li>
                             <li><a href="#about">Sobre</a></li>
                             <li><a href="#contact" data-remote="{% url 'EmpregadoSimples.apps.contato.views.form_contato' %}" data-toggle="modal">Contato</a></li>
                             <!-- 
@@ -61,13 +61,17 @@
                             </li>
                              -->
                         </ul>
-                        <!-- 
-                        <form class="navbar-form pull-right">
+                        {% if not user.is_authenticated %}
+                        <form class="navbar-form pull-right" method="POST" action="{% url 'django.contrib.auth.views.login' %}">
+                        	{% csrf_token %}
                             <input class="span2" type="text" placeholder="Email">
                             <input class="span2" type="password" placeholder="Senha">
                             <button type="submit" class="btn">Entrar</button>
                         </form>
-                         -->
+                        {% else %}
+                        <p> {{ user.name }} </p>
+                        <a href="{% url 'django.contrib.auth.views.logout' %}">Sair</a> 
+                        {% endif %}
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
