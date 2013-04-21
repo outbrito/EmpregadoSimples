@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 		{% block container %}
-		  <form method="POST" action="{% url 'EmpregadoSimples.apps.contas.views.registrar' %}">
+		  <form method="POST" action="{% url 'EmpregadoSimples.apps.contas.views.home' %}">
 			{% csrf_token %}			
 			<div class="page-header">
 			  <h4>Dados de Pessoais</h4>
@@ -24,8 +24,8 @@
 				</div>
 			</div>
 			{% if message %}
-			<div class="alert alert-error">
-			  <p> {{ message }}
+			<div class="alert alert-{{message.0}}">
+			  <p> {{ message.1 }}
 			</div>
 			{% endif %}
 			

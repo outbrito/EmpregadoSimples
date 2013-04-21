@@ -180,4 +180,4 @@ LOGGING = {
 
 
 LOGIN_URL = "/login"
-LOGIN_REDIRECT_URL = "/contas"
+LOGIN_REDIRECT_URL = "/conta"

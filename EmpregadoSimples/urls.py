@@ -9,7 +9,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
      url(r'^login/?$', 'django.contrib.auth.views.login', {'template_name': 'contas/login.html'}),
-     url(r'^login/?$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+     url(r'^logout/?$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
      
      url(r'^registrar/?', 'EmpregadoSimples.apps.contas.views.registrar'),
     

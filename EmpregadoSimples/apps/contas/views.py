@@ -30,52 +30,40 @@ def registrar(request):
         sobrenome= request.POST.get('sobrenome','')
         
         if username and password and (password == password2) and email and nome:
-            user, created = User.objects.get_or_create(username=username, password=password, defaults={'email': email, 'first_name': nome, 'last_name': sobrenome})
+            user = User.objects.create_user(username=username, password=password, email=email, first_name=nome, last_name=sobrenome)
             
-            if created:
-                user = authenticate(username=username, password=password)
-                
-                if user is not None:
-                    if user.is_active:
-                        login(request, user)
-                        
-                        ret = home(request, user.id)
-                    else:
-                        ret = render_to_response("contas/registrar.html", 
-                                                 {
-                                                  "message" : "Conta desativada. Contate o administrador pelo formulário de contato.",
-                                                  "user": user
-                                                  },
-                                                 context_instance=RequestContext(request)
-                                                 )
-                        
-                else:
-                    ret = render_to_response("contas/registrar.html", 
-                                                 {
-                                                  "message" : "Login inválido. Contate o administrador pelo formulário de contato.",
-                                                  "username": username,
-                                                  "nome": nome,
-                                                  "sobrenome": sobrenome
-                                                  },
-                                                 context_instance=RequestContext(request)
-                                                 )
-            else:
-                ret = render_to_response("contas/registrar.html", 
-                                                 {
-                                                  "message" : "Este nome de usuário já existe.",
-                                                  "username": username,
-                                                  "nome": nome,
-                                                  "sobrenome": sobrenome
-                                                  },
-                                                 context_instance=RequestContext(request)
-                                                 )
+            login(request, user)
+    
+            ret =  home(request) 
         
     return ret
     
     
 @login_required
-def home(request, uid):
-    return render_to_response("contas/home.html", context_instance=RequestContext(request))
+def home(request):
+    if request.method == 'GET':
+        ret = render_to_response("contas/home.html", context_instance=RequestContext(request))
+    
+    elif request.method == 'POST':
+        email= request.POST.get('email', '')
+        nome= request.POST.get('nome','')
+        sobrenome= request.POST.get('sobrenome','')
+        
+        user = request.user
+        
+        user.email = email
+        user.first_name = nome
+        user.last_name = sobrenome
+        user.save()
+        
+        ret = render_to_response("contas/home.html",
+                                 {
+                                  'message': ["success", "Dados salvos com sucesso."],
+                                  },
+                                 context_instance=RequestContext(request)
+                                 )
+        
+    return ret
     
 
 def pagamento(request):
