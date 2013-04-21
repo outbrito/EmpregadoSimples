@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+		{% block container %}
+		<h2> Empregado {{ empregado.id}} - {{ empregado.nome }} {{empregado.sobrenome }}</h2>
+		<hr>
+		
+		<div class="tabbable tabs-left">
+		  <ul class="nav nav-tabs">
+		    <li><a href="#dados" data-toggle="tab">Dados</a></li>
+		    <li><a href="#pagamentos" data-toggle="tab">Pagamentos</a></li>
+		    <li><a href="#contratos" data-toggle="tab">Contratos</a></li>
+		    <li><a href="#ctps" data-toggle="tab">CTPS</a></li>
+		  </ul>
+		  
+		  <div class="tab-content">
+			  <div id="dados" class="active tab-pane">
+				{{ form.as_p }}
+			  </div>
+			  <div id="pagamentos" class="tab-pane">
+				<p>TO-DO</p>
+			  </div>
+			  <div id="contratos" class="tab-pane">
+				<p>TO-DO</p>
+			  </div>
+			  <div id="ctps" class="tab-pane">
+				<p>TO-DO</p>
+			  </div>
+		  </div>
+		</div>
+		{% endblock %}

@@ -136,6 +136,9 @@ INSTALLED_APPS = (
     'EmpregadoSimples.apps.contato',
     'EmpregadoSimples.apps.simulador',
     'EmpregadoSimples.apps.contas',
+    'EmpregadoSimples.apps.empregados',
+    
+    'EmpregadoSimples.libs.html5forms'
 )
 
 # A sample logging configuration. The only tangible logging

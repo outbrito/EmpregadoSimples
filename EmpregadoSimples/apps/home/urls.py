@@ -8,10 +8,8 @@ Created on 15/04/2013
 
 from django.conf.urls import patterns, url
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
 
 urlpatterns = patterns('EmpregadoSimples.apps.home.views',
-                       url(r'^/?$', 'home'),
+                       url(r'^$', 'index'),
+                       url(r'^home/?$', 'home'),
                        )

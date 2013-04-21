@@ -13,8 +13,15 @@ from django.shortcuts import RequestContext
 # Project Imports
 
 
-def home(request):
+def index(request):
     return render_to_response("home/index.html",
+                              {},
+                              context_instance=RequestContext(request)
+                              )
+
+
+def home(request):
+    return render_to_response("home/home.html",
                               {},
                               context_instance=RequestContext(request)
                               )

@@ -7,10 +7,12 @@
                         <span class="icon-bar"></span>
                     </a>
                     <!-- <img style="float: left;" src="img/men_at_work.png" alt="" width="32px" heigth="32px"/> -->
-                    <a class="brand" href="#">EmpregadoSimples</a>
+                    <a class="brand" href="{% url 'EmpregadoSimples.apps.home.views.index' %}">EmpregadoSimples</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
+                           	{% if user.is_authenticated %}
                             <li class="active"><a href="{% url 'EmpregadoSimples.apps.home.views.home' %}">Home</a></li>
+                            {% endif %}
                             <li><a href="#about">Sobre</a></li>
                             <li><a href="#contact" data-remote="{% url 'EmpregadoSimples.apps.contato.views.form_contato' %}" data-toggle="modal">Contato</a></li>
                             {% if user.is_authenticated %}
@@ -18,13 +20,20 @@
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Empregados <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-header">Ativos</li>
-                                    <li><a href="#">Empregado1</a></li>
-                                    <li><a href="#">Empregado2</a></li>
+                                    {% for e in user.empregados.all %}
+                                    {% if not e.data_demissao %}
+                                    <li><a href="{% url 'EmpregadoSimples.apps.empregados.views.empregado' e.id %}">{{ e.nome }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
                                     <li class="divider"></li>
                                     <li class="nav-header">Demitidos</li>
-		                        	<li><a href="#">Empregado3</a></li>
+		                        	{% for e in user.empregados.all %}
+                                    {% if e.data_demissao %}
+                                    <li><a href="#">{{ e.nome }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
                                     <li class="divider"></li>
-                                    <li><a href="#">Novo Empregado</a></li>
+                                    <li><a href="{% url 'EmpregadoSimples.apps.empregados.views.novo' %}">Novo Empregado</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

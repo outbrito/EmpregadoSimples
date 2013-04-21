@@ -13,10 +13,12 @@ urlpatterns = patterns('',
      
      url(r'^registrar/?', 'EmpregadoSimples.apps.contas.views.registrar'),
     
-     url(r'^simulador/?', include('EmpregadoSimples.apps.simulador.urls')),
-     url(r'^contato/?', include('EmpregadoSimples.apps.contato.urls')),
-     url(r'^conta/?', include('EmpregadoSimples.apps.contas.urls')),
-     url(r'^$', include('EmpregadoSimples.apps.home.urls')),
+     url(r'^simulador/', include('EmpregadoSimples.apps.simulador.urls')),
+     url(r'^contato/', include('EmpregadoSimples.apps.contato.urls')),
+     url(r'^conta/', include('EmpregadoSimples.apps.contas.urls')),
+     url(r'^empregado/', include('EmpregadoSimples.apps.empregados.urls')),
+     
+     url(r'^', include('EmpregadoSimples.apps.home.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
      url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

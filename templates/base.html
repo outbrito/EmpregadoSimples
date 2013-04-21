@@ -34,8 +34,18 @@
         {% include 'navigation.html' %}
 
         <div class="container">
-		{% block container %}
-		{% endblock %}
+        	{% if alert %}
+        		<div class="alert">{{ alert }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+        	{% elif success %}
+        		<div class="alert alert-success">{{ success }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+        	{% elif info %}
+        		<div class="alert alert-info">{{ info }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+        	{% elif error %}
+        		<div class="alert alert-error">{{ error }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+       		{% endif %}
+       		
+			{% block container %}
+			{% endblock %}
         </div>
 
             <hr>
