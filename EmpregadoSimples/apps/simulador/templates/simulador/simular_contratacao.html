@@ -1,5 +1,5 @@
 				{% csrf_token %}
-				<label for="salario">Salário a Pagar:</label><input type="number" step="0.10" id="salario" name="salario" placeholder="000.00"/>
+				<label for="salario">Salário a Pagar:</label><input type="number" step="0.10" id="salario" name="salario" placeholder="Sálario Bruto" required="required"/>
 				<label for="jornada_semanal">Jornada Semanal:</label><input type="number" step="1" id="jornada_semanal" name="jornada_semanal" placeholder="44"/>
 				<label for="custo_transporte">Custo do Transporte:</label><input type="number" step="0.10" id="custo_transporte" name="custo_transporte" placeholder="0.00"/>
 				<label for="transporte_por_dia">Transportes/Dia:</label><input type="number" step="1" id="transporte_por_dia" name="transporte_por_dia" placeholder="0"/>
@@ -14,6 +14,7 @@
 						var custo_transporte = $("#custo_transporte").val();
 						var transporte_por_dia = $("#transporte_por_dia").val();
 						
+						if(salario > 0){
 						$.post("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' %}",
 								"csrfmiddlewaretoken=" + token + "&salario=" + salario + "&jornada_semanal=" + jornada_semanal + "&custo_transporte=" + custo_transporte + "&transporte_por_dia=" + transporte_por_dia,
 								function(data){
@@ -22,5 +23,9 @@
 								}).error(function(data){
 									window.open().document.write(data.responseText);
 								});
+						}else{
+							alert("Digite o salário do Funcionario");
+							
+						}
 					}
 				  </script>

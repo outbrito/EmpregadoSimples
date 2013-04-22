@@ -1,4 +1,4 @@
-<table class="table table-bordered">
+﻿<table class="table table-bordered">
 	<thead>
 		<tr class="warning">
 			<th colspan="6"><p class="text-center">Gastos Mensais</p></th>
@@ -41,13 +41,51 @@
 			<td colspan="2"><p class="text-center text-info">{{ calc.total_month_employee|floatformat:2 }}</p></td>
 			<td><p class="text-left"></p></td>
 		</tr>
+		
 	</tbody>
 </table>
 <table class="table table-bordered">
 	<thead>
+		<tr class="text-left">
+			<th colspan="6"><p class="text-center">Provisão Mensal de Gastos</p></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr>
+			<td><p class="text-left"><abbr title="Provisão das ferias" class="initialism">Provisão de Férias</abbr></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.prov_ferias_total|floatformat:2 }}</p></td>
+		</tr>
+			<tr>
+			<td><p class="text-left"><abbr title="Provisão do Décimo Terceiro (13º)" class="initialism">Provisão do Décimo Terceiro (13º)</abbr></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.prov_decimoTerceiro|floatformat:2 }}</p></td>
+		</tr>
+			<tr>
+			<td><p class="text-left"><abbr title="Provisão do INSS (Instituto Nacional de Segurança Social) sobre Férias e 13º" class="initialism">Provisão do INSS(Férias,13º)</abbr></p></td>
+			<td colspan="2"><p class="text-center text-error">{{calc.prov_inss_ferias_decimo|floatformat:2 }}</p></td>
+		</tr>
+			<tr>
+			<td><p class="text-left"><abbr title="Provisão do FGTS(Fundo de Garantia por Tempo de Serviço) sobre Férias e 13º"" class="initialism">Provisão do FGTS(Férias/13º)</abbr></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.prov_fgts_ferias_decimo|floatformat:2 }}</p></td>
+		</tr>
+		<tr class="warning">
+			<td><p class="text-left"><b>Total de Provisões</b></p></td>
+			<td colspan="2"><p class="text-center text-error">{{ calc.total_prov|floatformat:2 }}</p></td>
+		</tr>
+		<tr class="warning">
+			<td><p class="text-left"><b>Total Mensal + Provisões Mensais </b></p></td>
+			<td colspan="2"><p class="text-center text-error"><b>{{ calc.total_completo|floatformat:2 }}</b></p></td>
+		</tr>
+		
+
+	</tbody>
+</table>
+
+<table class="table table-bordered">
+	<thead>
 		<tr class="warning">
 			<th colspan="6"><p class="text-center">Gastos Anuais</p></th>
-		</tr>
+		</tr> 
 		<tr class="warning">
 			<th></th>
 			<th colspan="2"><p class="text-center">Empregador</p></th>

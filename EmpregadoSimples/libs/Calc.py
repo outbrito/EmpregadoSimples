@@ -142,7 +142,13 @@ class Calc(object):
     
     
     def total_month_employer(self):
-        return self.salary_employer() + self.inss_employer() + self.fgts_employer() + self.transport_employer()
+        return ( self.salary_employer()
+                 + self.inss_employer()
+                 + self.fgts_employer()
+                 + self.transport_employer()
+                  )
+        
+    
     
     
     def total_month_employee(self):
@@ -155,6 +161,35 @@ class Calc(object):
     
     def total_year_employee(self):
         return self.salary_employee() + self.inss_employee() + self.vacation_employee()
+    
+    #Metodo retorna o valor que será pago pelas ferias
+    #Salario mais um terço do salario divido 12 meses do ano
+    def prov_ferias_total(self):
+        return  round( ( (self.salary  / 12 ) + self.prov_acrescimo_ferias()) * -1, 2 )
+    
+    def prov_acrescimo_ferias(self):
+        return round ( ( self.salary /3 ) / 12, 2)
+    
+    def prov_decimoTerceiro(self):
+        return round((self.salary / 12) * -1, 2)
+    
+    def prov_inss_ferias_decimo(self):
+        return round ( (self.prov_ferias_total() *.12) + (self.prov_decimoTerceiro() *.12) , 2 )
+    
+    def prov_fgts_ferias_decimo(self):
+        return round ( (self.prov_ferias_total() *.08) + (self.prov_decimoTerceiro() *.08) , 2 )
+    
+    def total_prov(self):
+        return (   self.prov_decimoTerceiro()
+                 + self.prov_ferias_total()
+                 + self.prov_fgts_ferias_decimo() 
+                 + self.prov_inss_ferias_decimo())
+
+    # Retorna o total mensal somado as provisoes        
+    def total_completo(self):
+        return self.total_month_employer() + self.total_prov()  
+        
+
     
     
 if __name__ == "__main__":
