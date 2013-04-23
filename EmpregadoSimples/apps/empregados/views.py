@@ -23,7 +23,7 @@ def novo(request):
             e.conta = request.user
             e.save()
             
-            ret = empregado(request, id)
+            ret = empregado(request, e.id)
         else:
             ret = render_to_response('empregados/novo.html',
                               {'form': form},

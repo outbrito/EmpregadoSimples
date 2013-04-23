@@ -8,6 +8,7 @@
 		<div class="tabbable tabs-left">
 		  <ul class="nav nav-tabs">
 		    <li><a href="#dados" data-toggle="tab">Dados</a></li>
+		    <li><a href="#custos" data-toggle="tab">Custos</a></li>
 		    <li><a href="#pagamentos" data-toggle="tab">Pagamentos</a></li>
 		    <li><a href="#contratos" data-toggle="tab">Contratos</a></li>
 		    <li><a href="#ctps" data-toggle="tab">CTPS</a></li>
@@ -16,6 +17,8 @@
 		  <div class="tab-content">
 			  <div id="dados" class="active tab-pane">
 				{{ form.as_p }}
+			  </div>
+			  <div id="custos" class="tab-pane">
 			  </div>
 			  <div id="pagamentos" class="tab-pane">
 				<p>TO-DO</p>
@@ -28,4 +31,10 @@
 			  </div>
 		  </div>
 		</div>
+		{% endblock %}
+		
+		{% block js%}
+		<script>
+			$("#custos").load("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' empregado=empregado.id %}");
+		</script>
 		{% endblock %}

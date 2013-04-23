@@ -402,6 +402,66 @@ class Html5IntegerField(Html5Field):
         return value
 
 
+class Html5NumberField(Html5Field):
+    """ Number Field 
+
+    :param placeholder: placeholder text to display if field in unfocused
+    :type placeholder: String
+    :param autofocus: should the field be focused on load
+    :type autofocus: Boolean
+    :param min_value: minimum value for field
+    :type min_value: Float
+    :param max_value: maximum value for field
+    :type max_value: Float
+    :param step: step for number selector (eg. 2 for 2,4,6,8...)
+    :type step: Float
+    """
+
+    widget = Html5NumberInput
+
+    default_error_messages = {
+        'invalid': _(u'Enter a number.'),
+        'max_value': _(u'Ensure this value is less than or equal to %(limit_value)s.'),
+        'min_value': _(u'Ensure this value is greater than or equal to %(limit_value)s.'),
+    }
+
+    def __init__(self, max_value=None, min_value=None, *args, **kwargs):
+
+        self.max_value = max_value
+        self.min_value = min_value
+
+        super(Html5NumberField, self).__init__(*args, **kwargs)
+
+        if self.max_value is not None:
+            self.validators.append(validators.MaxValueValidator(self.max_value))
+        if self.min_value is not None:
+            self.validators.append(validators.MinValueValidator(self.min_value))
+
+    def widget_attrs(self, widget):
+        par_attrs = super(Html5NumberField, self).widget_attrs(widget)
+        if self.max_value is not None:
+            par_attrs.update({'max': str(self.max_value)})
+        if self.min_value is not None:
+            par_attrs.update({'min': str(self.min_value)})
+        return par_attrs
+
+    def to_python(self, value):
+        """
+        Validates that float() can be called on the input. Returns the result
+        of float(). Returns None for empty values.
+        """
+        value = super(Html5NumberField, self).to_python(value)
+        if value in validators.EMPTY_VALUES:
+            return None
+        if self.localize:
+            value = formats.sanitize_separators(value)
+        try:
+            value = float(str(value))
+        except (ValueError, TypeError):
+            raise exceptions.ValidationError(self.error_messages['invalid'])
+        return value
+
+
 class Html5RangeField(Html5IntegerField):
     """ Number Range Field (just like number field, but shows a slider instead of spinbox)
 

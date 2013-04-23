@@ -6,6 +6,12 @@ Created on 13/04/2013
 @author: ThiagoP
 '''
 
+# Python Imports
+# Django Imports
+# Project Imports
+from EmpregadoSimples.apps.empregados.models import Empregado
+
+
 class Calc(object):
     '''
     classdocs
@@ -25,7 +31,9 @@ class Calc(object):
     
    
     def initFromFuncionario(self, f):
-        pass
+        assert isinstance(f, Empregado)
+        
+        self.init(f.salario, f.horas_semana, f.custo_transporte, f.transporte_dia)
    
    
     def init(self, salary, semanal_journey, transport_cost=0, transport_xtimes_day=0, week_days = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab'], extra_hour_perc=50):
