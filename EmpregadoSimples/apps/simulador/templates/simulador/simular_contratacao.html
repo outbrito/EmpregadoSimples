@@ -14,7 +14,7 @@
 						var custo_transporte = $("#custo_transporte").val();
 						var transporte_por_dia = $("#transporte_por_dia").val();
 						
-						if(salario > 0){
+						
 						$.post("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' %}",
 								"csrfmiddlewaretoken=" + token + "&salario=" + salario + "&jornada_semanal=" + jornada_semanal + "&custo_transporte=" + custo_transporte + "&transporte_por_dia=" + transporte_por_dia,
 								function(data){
@@ -23,9 +23,9 @@
 								}).error(function(data){
 									window.open().document.write(data.responseText);
 								});
-						}else{
-							alert("Digite o salário do Funcionario");
+						
 							
-						}
+							
+						
 					}
 				  </script>
