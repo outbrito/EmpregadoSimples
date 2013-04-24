@@ -36,5 +36,6 @@
 		{% block js%}
 		<script>
 			$("#custos").load("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' empregado=empregado.id %}");
+			$("#ctps").load("{% url 'EmpregadoSimples.apps.empregados.views.ctps' empregado.id %}");
 		</script>
 		{% endblock %}

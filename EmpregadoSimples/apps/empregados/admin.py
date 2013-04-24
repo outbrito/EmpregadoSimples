@@ -10,7 +10,8 @@ Created on 21/04/2013
 # Django Imports
 from django.contrib import admin
 # Project Imports
-from models import Empregado, Funcao
+from models import *
+
 
 class EmpregadoAdmin(admin.ModelAdmin):
     list_display = ('conta', 'id', 'nome')
@@ -19,6 +20,14 @@ class EmpregadoAdmin(admin.ModelAdmin):
 class FuncaoAdmin(admin.ModelAdmin):
     pass
 
+class CidadeAdmin(admin.ModelAdmin):
+    pass
+
+class EstadoAdmin(admin.ModelAdmin):
+    pass
+
 
 admin.site.register(Empregado, EmpregadoAdmin)
 admin.site.register(Funcao, FuncaoAdmin)
+admin.site.register(Cidade, CidadeAdmin)
+admin.site.register(Estado, EstadoAdmin)

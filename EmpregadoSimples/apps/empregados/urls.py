@@ -14,5 +14,6 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('EmpregadoSimples.apps.empregados.views',
                        url(r'^novo/?$', 'novo'),
-                       url(r'^(\d)/?$', 'empregado'),
+                       url(r'^(\d*)/?$', 'empregado'),
+                       url(r'^(\d*)/ctps/?$', 'ctps'),
                        )

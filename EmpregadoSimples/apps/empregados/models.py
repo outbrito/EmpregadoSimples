@@ -29,6 +29,9 @@ class Empregado(models.Model):
     ctps = models.CharField("CTPS", max_length=20)
     pis = models.CharField("PIS", max_length=20)
     endereco = models.CharField("Endereco", max_length=100)
+    numero = models.IntegerField("Numero")
+    cidade = models.ForeignKey("Cidade")
+    estado = models.ForeignKey("Estado")
     telefone = models.CharField("Telefone", max_length=10)
     email = models.EmailField("E-mail", null=True, blank=True)
     data_admissao = models.DateField("Data de Admissão", max_length=20)
@@ -50,9 +53,24 @@ class Empregado(models.Model):
      
 class Funcao(models.Model):
     nome = models.CharField("Nome", max_length=20)
+    cbo =  models.CharField("Nome", max_length=10)
     
     def __unicode__(self):
         return self.nome
     
     class Meta:
         verbose_name_plural = "Funcoes"
+        
+        
+class Cidade(models.Model):
+    nome = models.CharField("Nome", max_length=20)
+    
+    def __unicode__(self):
+        return self.nome
+    
+
+class Estado(models.Model):
+    nome = models.CharField("Nome", max_length=20)
+    
+    def __unicode__(self):
+        return self.nome
