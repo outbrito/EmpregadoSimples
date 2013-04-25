@@ -10,6 +10,7 @@ Created on 13/04/2013
 # Django Imports
 # Project Imports
 from EmpregadoSimples.apps.empregados.models import Empregado
+from EmpregadoSimples.apps.simulador.models import getAliquotas
 
 
 class Calc(object):
@@ -27,7 +28,7 @@ class Calc(object):
         self.week_days = []
         self.transport_cost = 0.0 
         self.transport_xtimes_day = 0
-        self.extra_hour_perc = 0.0 
+        self.extra_hour_perc = 0.0
     
    
     def initFromFuncionario(self, f):
@@ -52,6 +53,7 @@ class Calc(object):
         self.transport_cost = float(transport_cost)
         self.transport_xtimes_day = int(transport_xtimes_day)
         self.extra_hour_perc = float(extra_hour_perc)
+        self.aliquotas = getAliquotas(self.salary)
         
     
     def worked_hour(self):
@@ -110,43 +112,32 @@ class Calc(object):
     
     
     def inss(self):
-        return self.salary * .20
+        return self.fgts_employee() + self.fgts_employer()
     
     
     def inss_employee(self):
-        #TODO: Jogar essa lógica pra uma tabela no banco pra evitar alterar código quando as aliquotas mudarem
-        if self.salary <= 1247.70:
-            ret = self.salary * .08 
-        elif self.salary > 1247.70 and self.salary <= 2079.50:
-            ret = self.salary * .09
-        elif self.salary > 2079.50 and self.salary <= 4159:
-            ret = self.salary * .11
-        else:
-            ret = 4159 * .11
-            
+        #TODO: tratar o teto
+        ret = self.salary * self.aliquotas.inss_empregador    
         return ret * -1
     
     
     def inss_employer(self):
-        #TODO: Jogar essa lógica pra uma tabela no banco pra evitar alterar código quando as aliquotas mudarem
-        if self.salary <= 1247.70:
-            ret = self.salary * .12 
-        elif self.salary > 1247.70 and self.salary <= 2079.50:
-            ret = self.salary * .11
-        elif self.salary > 2079.50 and self.salary <= 4159:
-            ret = self.salary * .9
-        else:
-            ret = 4159 * .9
-            
+        #TODO: tratar o teto    
+        ret = self.salary * self.aliquotas.inss_empregador
         return ret * -1
     
     
     def fgts_employer(self):
-        return self.salary * .08 * -1
+        ret = self.salary * self.aliquotas.fgts_empregador
+        return ret * -1
+    
+    def fgts_employee(self):
+        ret = self.salary * self.aliquotas.fgts_empregado
+        return ret * -1
     
     
     def fgts(self):
-        return self.salary * .08
+        return self.fgts_employee() + self.fgts_employer()
     
     
     def total_month_employer(self):
