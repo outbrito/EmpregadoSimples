@@ -15,6 +15,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 # Project Imports
+from forms import FormPerfil, FormUsuario
+from models import PerfilUsuario
 
 
 def registrar(request):
@@ -42,7 +44,19 @@ def registrar(request):
 @login_required
 def home(request):
     if request.method == 'GET':
-        ret = render_to_response("contas/home.html", context_instance=RequestContext(request))
+        form_usuario = FormUsuario(instance=request.user)
+        try:
+            form_perfil = FormPerfil(instance=request.user.perfil)
+        except PerfilUsuario.DoesNotExist:
+            form_perfil = FormPerfil()
+        
+        ret = render_to_response("contas/home.html",
+                                 {
+                                  'form_usuario': form_usuario,
+                                  'form_perfil': form_perfil
+                                  }, 
+                                 context_instance=RequestContext(request)
+                                 )
     
     elif request.method == 'POST':
         email= request.POST.get('email', '')

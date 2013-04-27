@@ -11,6 +11,7 @@ Created on 21/04/2013
 from django.db import models
 from django.contrib.auth.models import User
 # Project Imports
+from EmpregadoSimples.apps.contas.models import Cidade, Estado 
 
 SEX_CHOICES = (
                ('M', 'Masc'),
@@ -30,8 +31,8 @@ class Empregado(models.Model):
     pis = models.CharField("PIS", max_length=20)
     endereco = models.CharField("Endereco", max_length=100)
     numero = models.IntegerField("Numero")
-    cidade = models.ForeignKey("Cidade")
-    estado = models.ForeignKey("Estado")
+    cidade = models.ForeignKey(Cidade)
+    estado = models.ForeignKey(Estado)
     telefone = models.CharField("Telefone", max_length=10)
     email = models.EmailField("E-mail", null=True, blank=True)
     data_admissao = models.DateField("Data de Admissão", max_length=20)
@@ -60,17 +61,3 @@ class Funcao(models.Model):
     
     class Meta:
         verbose_name_plural = "Funcoes"
-        
-        
-class Cidade(models.Model):
-    nome = models.CharField("Nome", max_length=20)
-    
-    def __unicode__(self):
-        return self.nome
-    
-
-class Estado(models.Model):
-    nome = models.CharField("Nome", max_length=20)
-    
-    def __unicode__(self):
-        return self.nome

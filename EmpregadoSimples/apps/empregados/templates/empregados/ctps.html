@@ -11,13 +11,13 @@
 		<h2>Modelo <abbr title="Carteira de Trabalho e Previdência Social" class="initialism">CTPS</abbr></h2>
 		<hr>
 		<div id="ctps" class="offset4" style="background-image: url({% static 'img/CTPS.jpg' %}); height: 560px; width: 342px; border: 1px solid black;">
-		<p style="margin-top: 30px; margin-left:80px;">{{ empregado.nome }} {{ empregado.sobrenome }}</p>
-		<p style="margin-top: 30px; margin-left:60px;">{{ empregado.cpf }}</p>
-		<p style="margin-top: -5px; margin-left:35px;">{{ empregado.endereco }}</p>
-		<p style="margin-top: -30px; margin-left:280px;">{{ empregado.numero }}</p>
-		<p style="margin-top: -5px; margin-left:65px;">{{ empregado.cidade }}</p>
-		<p style="margin-top: -31px; margin-left:265px;">{{ empregado.estado }}</p>
-		<p style="margin-top: -3px; margin-left:150px;">Residencial</p>
+		<p style="margin-top: 30px; margin-left:80px;">{{ user.first_name }} {{ user.last_name }}</p>
+		<p style="margin-top: 30px; margin-left:60px;">{{ user.profile.cpf_cnpj }}</p>
+		<p style="margin-top: -5px; margin-left:35px;">{{ user.profile.endereco }}</p>
+		<p style="margin-top: -30px; margin-left:280px;">{{ user.profile.numero }}</p>
+		<p style="margin-top: -5px; margin-left:65px;">{{ user.profile.cidade }}</p>
+		<p style="margin-top: -31px; margin-left:265px;">{{ user.profile.estado }}</p>
+		<p style="margin-top: -3px; margin-left:150px;">{{ user.profile.estabelecimento }}</p>
 		<p style="margin-top: -4px; margin-left:50px;">{{ empregado.funcao }}</p>
 		<p style="margin-top: -6px; margin-left:200px;">{{ empregado.funcao.cbo }}</p>
 		<p style="margin-top: -5px; margin-left:90px;">{{ empregado.data_admissao|date:"d" }}</p>
