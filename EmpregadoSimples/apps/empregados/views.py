@@ -11,13 +11,17 @@ Created on 21/04/2013
 from django.http.response import HttpResponse, HttpResponseServerError, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, RequestContext
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 # Project Imports
 from forms import FormEmpregado
 from models import Empregado
 
 
+def user_perfil_expired(user):
+    return not user.perfil.expired()
+
 @login_required
+@user_passes_test(user_perfil_expired)
 def novo(request):
     if request.method == 'POST': # If the form has been submitted...
         form = FormEmpregado(request.POST)
@@ -46,6 +50,7 @@ def novo(request):
 
 
 @login_required
+@user_passes_test(user_perfil_expired)
 def empregado(request, id):
     id = int(id)
     try:
@@ -72,6 +77,7 @@ def empregado(request, id):
 
 
 @login_required
+@user_passes_test(user_perfil_expired)
 def ctps(request, id):
     id = int(id)
     try:

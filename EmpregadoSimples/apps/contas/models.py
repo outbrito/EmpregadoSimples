@@ -7,22 +7,40 @@ Created on 26/04/2013
 '''
 
 # Python Imports
+from datetime import date, timedelta
 # Django Imports
 from django.db import models
 from django.contrib.auth.models import User
 # Project Imports
 
 
+TIPO_INSCRICAO = (
+                  (1, 'Free'),
+                  (2, 'Subscricao Mensal'),
+                  (3, 'Subscricao Permanente')
+                  )
+
 class PerfilUsuario(models.Model):
-    usuario = models.OneToOneField(User, related_name="perfil")
-    expiracao = models.DateField("Data de Expiração")
-    endereco = models.CharField("Endereco", max_length=100)
-    numero = models.IntegerField("Numero")
-    complemento = models.CharField("Complemento", max_length=100)
-    cidade = models.ForeignKey("Cidade")
-    estado = models.ForeignKey("Estado")
-    cpf_cnpj = models.CharField("CPF/CNPJ", max_length=20)
-    estabelecimento = models.ForeignKey("Estabelecimento")
+    usuario = models.OneToOneField(User, related_name="perfil", primary_key=True)
+    cpf_cnpj = models.CharField("CPF/CNPJ", max_length=20, null=True, blank=True)
+    tipo_inscricao = models.IntegerField("Tipo de Inscrição", choices=TIPO_INSCRICAO, default=1)
+    expiracao = models.DateField("Data de Expiração", default=date.today()+timedelta(days=30))
+    endereco = models.CharField("Endereco", null=True, blank=True, max_length=100)
+    numero = models.IntegerField("Numero", null=True, blank=True)
+    complemento = models.CharField("Complemento", null=True, blank=True, max_length=100)
+    cidade = models.ForeignKey("Cidade", null=True, blank=True)
+    estado = models.ForeignKey("Estado", null=True, blank=True)
+    estabelecimento = models.ForeignKey("Estabelecimento", null=True, blank=True)
+    
+    def expired(self):
+        if self.tipo_inscricao == 3:
+            ret = False
+        else:
+            ret = date.today() > self.expiracao
+        return ret
+    
+    def __unicode__(self):
+        return self.usuario.first_name
     
         
 class Cidade(models.Model):

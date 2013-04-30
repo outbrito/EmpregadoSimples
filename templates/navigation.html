@@ -15,7 +15,7 @@
                             {% endif %}
                             <li><a href="#about">Sobre</a></li>
                             <li><a href="#contact" data-remote="{% url 'EmpregadoSimples.apps.contato.views.form_contato' %}" data-toggle="modal">Contato</a></li>
-                            {% if user.is_authenticated %}
+                            {% if user.is_authenticated and not user.perfil.expired %}
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Empregados <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -36,6 +36,7 @@
                                     <li><a href="{% url 'EmpregadoSimples.apps.empregados.views.novo' %}">Novo Empregado</a></li>
                                 </ul>
                             </li>
+                            {% endif %}
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Simuladores <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -43,7 +44,6 @@
 		                        	<li><a href="#">Demissão</a></li>
                                 </ul>
                             </li>
-                            {% endif %}
                         </ul>
                         {% if not user.is_authenticated %}
                         <form class="navbar-form pull-right" method="POST" action="{% url 'django.contrib.auth.views.login' %}">

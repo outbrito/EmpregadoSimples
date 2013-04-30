@@ -13,7 +13,7 @@ from django.conf.urls import patterns, url
 # admin.autodiscover()
 
 urlpatterns = patterns('EmpregadoSimples.apps.contas.views',
-                       url(r'^/?$', 'home'),
-                       url(r'^/pagamento/?$', 'pagamento'),
-                       url(r'^/pagamento/_14py4p0nr0t3r/$', 'paypal_return'),
+                       url(r'^$', 'home'),
+                       url(r'^pagamento/?$', 'pagamento'),
+                       url(r'^pagamento/_14py4p0nr0t3r/$', 'paypal_return'),
                        )

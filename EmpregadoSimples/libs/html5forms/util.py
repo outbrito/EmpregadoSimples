@@ -22,9 +22,13 @@ def flatatt(attrs):
 
 def render_datalist(name, datalist):
     ret_arr = [u'<datalist id="%s">' % name]
-    for k, v in datalist:
-        ret_arr.append(u"""<option label="%s" value="%s">"""
-                % (conditional_escape(v), conditional_escape(k)))
+    for op in datalist:
+        if len(op) == 2:
+            ret_arr.append(u"""<option label="%s" value="%s">"""
+                % (conditional_escape(op[0]), conditional_escape(op[1])))
+        else:
+            ret_arr.append(u"""<option value="%s">"""
+                % (conditional_escape(op[0])))
 
     ret_arr.append(u'</datalist>')
     return u''.join(ret_arr)

@@ -13,17 +13,11 @@ from django.contrib import admin
 from models import *
 
 
-class CidadeAdmin(admin.ModelAdmin):
-    pass
+class PerfilUsuarioAdmin(admin.ModelAdmin):
+    list_display = ('usuario', 'tipo_inscricao', 'expiracao')
+    
 
-class EstadoAdmin(admin.ModelAdmin):
-    pass
-
-
-class EstabelecimentoAdmin(admin.ModelAdmin):
-    pass
-
-
-admin.site.register(Cidade, CidadeAdmin)
-admin.site.register(Estado, EstadoAdmin)
-admin.site.register(Estabelecimento, EstabelecimentoAdmin)
+admin.site.register(Cidade)
+admin.site.register(Estado)
+admin.site.register(Estabelecimento)
+admin.site.register(PerfilUsuario, PerfilUsuarioAdmin)

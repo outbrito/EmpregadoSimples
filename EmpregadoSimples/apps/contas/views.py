@@ -7,7 +7,7 @@ Created on 18/04/2013
 '''
 
 # Python Imports
-from datetime import date
+from datetime import date, timedelta
 # Django Imports
 from django.shortcuts import render_to_response, RequestContext
 from django.http.response import HttpResponseRedirect
@@ -16,28 +16,29 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 # Project Imports
-from forms import FormPerfil, FormUsuario
+from forms import FormPerfil, FormUsuario, FormRegistrar
 from models import PerfilUsuario, Cidade, Estado
 
 
 def registrar(request):
     if request.method == 'GET':
-        ret = render_to_response("contas/registrar.html", context_instance=RequestContext(request))
+        form = FormRegistrar()
+        ret = render_to_response("contas/registrar.html", {'form': form}, context_instance=RequestContext(request))
         
     elif request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        password2 = request.POST.get('password2', '')
-        email= request.POST.get('email', '')
-        nome= request.POST.get('nome','')
-        sobrenome= request.POST.get('sobrenome','')
+        form = FormRegistrar(request.POST)
         
-        if username and password and (password == password2) and email and nome:
-            user = User.objects.create_user(username=username, password=password, email=email, first_name=nome, last_name=sobrenome)
+        if form.is_valid():
+            user_form = form.save(commit=False)
+            user = User.objects.create_user(username=user_form.username, password=user_form.password, email=user_form.email, first_name=user_form.first_name, last_name=user_form.last_name)
+            perfil = PerfilUsuario.objects.get_or_create(usuario=user)
             
+            authenticate(username=user_form.username, password=user_form.password)
             login(request, user)
     
-            ret =  home(request) 
+            ret =  home(request)
+        else:
+            ret = render_to_response("contas/registrar.html", {'form': form}, context_instance=RequestContext(request))
         
     return ret
     
@@ -59,7 +60,6 @@ def home(request):
             
             try:
                 perfil_usuario = request.user.perfil
-                print "CHUPA\n\n\n"
             except PerfilUsuario.DoesNotExist:
                 perfil_usuario = PerfilUsuario()
                 perfil_usuario.usuario = request.user
@@ -78,40 +78,21 @@ def home(request):
             form_usuario = FormUsuario(instance=request.user)
             form_perfil = FormPerfil(instance=request.user.perfil)
             
-            ret = render_to_response("contas/home.html",
-                                 {
-                                  'form_usuario': form_usuario,
-                                  'form_perfil': form_perfil,
-                                  'success': "Dados salvos com sucesso."
-                                  },
-                                 context_instance=RequestContext(request)
-                                 )
+            ret = {'form_usuario': form_usuario, 'form_perfil': form_perfil, 'success': "Dados salvos com sucesso."}
+            
         else:
-           
-            ret = render_to_response("contas/home.html",
-                                 {
-                                  'form_usuario': form_usuario,
-                                  'form_perfil': form_perfil,
-                                  'error': "Verifique os erros abaixo...\n"
-                                  },
-                                 context_instance=RequestContext(request)
-                                 )
+            ret = {'form_usuario': form_usuario, 'form_perfil': form_perfil, 'error': "Verifique os erros abaixo...\n"}
+            
     else:
         form_usuario = FormUsuario(instance=request.user)
         try:
             form_perfil = FormPerfil(instance=request.user.perfil)
         except PerfilUsuario.DoesNotExist:
             form_perfil = FormPerfil()
-        
-        ret = render_to_response("contas/home.html",
-                                 {
-                                  'form_usuario': form_usuario,
-                                  'form_perfil': form_perfil
-                                  }, 
-                                 context_instance=RequestContext(request)
-                                 )
             
-    return ret
+        ret = {'form_usuario': form_usuario, 'form_perfil': form_perfil}
+            
+    return render_to_response("contas/home.html", ret, context_instance=RequestContext(request))
     
 
 def pagamento(request):

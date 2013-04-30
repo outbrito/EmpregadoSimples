@@ -30,7 +30,7 @@ class Html5TextInput(forms.widgets.TextInput):
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             final_attrs['value'] = force_unicode(self._format_value(value))
-        if self.datalist and isinstance(self.datalist, (tuple, list)):
+        if hasattr(self,'datalist') and self.datalist and isinstance(self.datalist, (tuple, list)):
             datalist_name = u'%s_datalist' % name
             final_attrs['list'] = force_unicode(u'%s_datalist' % name)
             return mark_safe(u"""<input%s >%s"""

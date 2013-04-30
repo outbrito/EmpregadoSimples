@@ -13,8 +13,4 @@ from django.contrib import admin
 from models import *
 
 
-class AliquotasAdmin(admin.ModelAdmin):
-    pass
-
-
-admin.site.register(Aliquotas, AliquotasAdmin)
+admin.site.register(Aliquotas)

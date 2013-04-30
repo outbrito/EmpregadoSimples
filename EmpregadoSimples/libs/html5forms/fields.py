@@ -117,8 +117,8 @@ class Html5CharField(Html5Field):
             datalist=None, *args, **kwargs):
         self.max_length, self.min_length, self.datalist = max_length,\
                 min_length, datalist
-        self.widget.datalist = datalist
         super(Html5CharField, self).__init__(*args, **kwargs)
+        self.widget.datalist = datalist
         if min_length is not None:
             self.validators.append(validators.MinLengthValidator(min_length))
         if max_length is not None:
