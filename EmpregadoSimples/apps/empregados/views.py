@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 # Project Imports
 from forms import FormEmpregado
 from models import Empregado
+from EmpregadoSimples.tools import render_to_pdf
 from EmpregadoSimples.settings import PAYPAL_RECEIVER_EMAIL
 from paypal.standard.forms import PayPalPaymentsForm
 
@@ -98,12 +99,35 @@ def ctps(request, id):
     try:
         e = Empregado.objects.get(id=id, conta__id=request.user.id)
         
-        ret = render_to_response('empregados/ctps.html',
+        ret = render_to_response('empregados/ctps_pdf.html',
                               {
                                'empregado': e
                                },
                               context_instance=RequestContext(request)
                               )
+    except Empregado.DoesNotExist:
+        msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
+        ret = render_to_response('home/home.html',
+                              {
+                               'error': msg
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    
+    return ret
+
+
+@login_required
+def ctps_pdf(request, id):
+    id = int(id)
+    try:
+        e = Empregado.objects.get(id=id, conta__id=request.user.id)
+        
+        ret = render_to_pdf('empregados/ctps_pdf.html',
+                              {
+                               'empregado': e
+                               }
+                            )
     except Empregado.DoesNotExist:
         msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
         ret = render_to_response('home/home.html',

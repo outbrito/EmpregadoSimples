@@ -12,8 +12,8 @@ from django import forms
 from django.contrib.auth.models import User
 # Project Imports
 from models import PerfilUsuario, Cidade, Estado
-from EmpregadoSimples.libs.html5forms.fields import Html5CharField, Html5EmailField, Html5IntegerField
-from EmpregadoSimples.libs.html5forms.widgets import Html5PasswordInput
+from html5forms.fields import Html5CharField, Html5EmailField, Html5IntegerField
+from html5forms.widgets import Html5PasswordInput
 
 
 class FormPerfil(forms.ModelForm):
@@ -39,6 +39,7 @@ class FormPerfil(forms.ModelForm):
     def clean(self):
         cidade, estado = self.cleaned_data.get('cidade'), self.cleaned_data.get('estado')
         cidade, estado = cidade.strip(), estado.strip()
+        cidade, estado = cidade.upper(), estado.upper()
         if not cidade:
             # not specified so raise an error to user
             raise forms.ValidationError('Você precisa digitar o nome da Cidade')

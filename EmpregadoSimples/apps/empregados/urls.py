@@ -18,6 +18,7 @@ urlpatterns = patterns('EmpregadoSimples.apps.empregados.views',
                        # Processo de contrato
 #                       url(r'^(\d*)/c/contrato/?$', 'contrato'),
                        url(r'^(\d*)/c/ctps/?$', 'ctps'),
+                       url(r'^(\d*)/c/ctps_pdf/?$', 'ctps_pdf'),
                        # Processo mensal
 #                       url(r'^(\d*)/m/ponto/?$', ''),
 #                       url(r'^(\d*)/m/contracheque/?$', ''),
