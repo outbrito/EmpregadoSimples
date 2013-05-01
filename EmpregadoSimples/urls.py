@@ -18,6 +18,8 @@ urlpatterns = patterns('',
      url(r'^conta/', include('EmpregadoSimples.apps.contas.urls')),
      url(r'^empregado/', include('EmpregadoSimples.apps.empregados.urls')),
      
+     url(r'^_14py4p0nr0t3r/', include('paypal.standard.ipn.urls')),
+     
      url(r'^/?', include('EmpregadoSimples.apps.home.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

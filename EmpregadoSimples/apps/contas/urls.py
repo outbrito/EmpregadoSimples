@@ -14,6 +14,6 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('EmpregadoSimples.apps.contas.views',
                        url(r'^$', 'home'),
-                       url(r'^pagamento/?$', 'pagamento'),
-                       url(r'^pagamento/_14py4p0nr0t3r/$', 'paypal_return'),
+#                       url(r'^pagamento/?$', 'pagamento'),
+#                       url(r'^pagamento/_14py4p0nr0t3r/$', 'paypal_return'),
                        )

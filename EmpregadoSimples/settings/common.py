@@ -1,5 +1,6 @@
-import os
+import os, sys
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), os.path.pardir, 'libs')))
 # Django settings for EmpregadoSimples project.
 
 DEBUG = True
@@ -139,6 +140,7 @@ INSTALLED_APPS = (
     'EmpregadoSimples.apps.empregados',
     
     'EmpregadoSimples.libs.html5forms',
+    'paypal.standard.ipn',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -184,3 +186,6 @@ LOGGING = {
 
 LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = "/conta"
+
+PAYPAL_RECEIVER_EMAIL = "tpborion@gmail.com"
+PAYPAL_IDENTITY_TOKEN = "xxx"

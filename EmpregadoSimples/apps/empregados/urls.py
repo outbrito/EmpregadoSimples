@@ -5,15 +5,22 @@ Created on 15/04/2013
 
 @author: ThiagoP
 '''
+# Python Imports
+# Django Imports
+from django.conf.urls import patterns, url, include
+# Project Imports
 
-from django.conf.urls import patterns, url
-
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
 
 urlpatterns = patterns('EmpregadoSimples.apps.empregados.views',
+                       # Cadastro
                        url(r'^novo/?$', 'novo'),
                        url(r'^(\d*)/?$', 'empregado'),
-                       url(r'^(\d*)/ctps/?$', 'ctps'),
+                       # Processo de contrato
+#                       url(r'^(\d*)/c/contrato/?$', 'contrato'),
+                       url(r'^(\d*)/c/ctps/?$', 'ctps'),
+                       # Processo mensal
+#                       url(r'^(\d*)/m/ponto/?$', ''),
+#                       url(r'^(\d*)/m/contracheque/?$', ''),
+#                       url(r'^(\d*)/m/inss/?$', ''),
+#                       url(r'^(\d*)/m/fgts/?$', ''),
                        )

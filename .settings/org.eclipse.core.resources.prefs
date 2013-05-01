@@ -9,4 +9,6 @@ encoding//EmpregadoSimples/apps/simulador/urls.py=utf-8
 encoding//EmpregadoSimples/apps/simulador/views.py=utf-8
 encoding//EmpregadoSimples/libs/Calc.py=utf-8
 encoding//EmpregadoSimples/libs/html5forms/__init__.py=utf-8
+encoding//EmpregadoSimples/libs/paypal/standard/forms.py=utf-8
+encoding//EmpregadoSimples/libs/paypal/standard/ipn/views.py=utf-8
 encoding//EmpregadoSimples/urls.py=utf-8
