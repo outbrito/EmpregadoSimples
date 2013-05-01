@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <style>
+            
+			#ctps p{
+			    color: blue;
+			    font-weight: bold;
+			}
+        </style>
+        <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+        <script src="{% static 'js/vendor/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+        
+    </head>
+    <body>
+		<div class="container">
+			<h2>Modelo <abbr title="Carteira de Trabalho e Previdência Social" class="initialism">CTPS</abbr></h2>
+			<hr>
+			
+			<div id="ctps" class="offset4" style="background-image: url({% static 'img/CTPS.jpg' %}); height: 560px; width: 342px; border: 1px solid black;">
+				<p style="margin-top: 30px; margin-left:80px;">{{ user.first_name }} {{ user.last_name }}</p>
+				<p style="margin-top: 30px; margin-left:60px;">{{ user.profile.cpf_cnpj }}</p>
+				<p style="margin-top: -5px; margin-left:35px;">{{ user.profile.endereco }}</p>
+				<p style="margin-top: -30px; margin-left:280px;">{{ user.profile.numero }}</p>
+				<p style="margin-top: -5px; margin-left:65px;">{{ user.profile.cidade }}</p>
+				<p style="margin-top: -31px; margin-left:265px;">{{ user.profile.estado }}</p>
+				<p style="margin-top: -3px; margin-left:150px;">{{ user.profile.estabelecimento }}</p>
+				<p style="margin-top: -4px; margin-left:50px;">{{ empregado.funcao }}</p>
+				<p style="margin-top: -6px; margin-left:200px;">{{ empregado.funcao.cbo }}</p>
+				<p style="margin-top: -5px; margin-left:90px;">{{ empregado.data_admissao|date:"d" }}</p>
+				<p style="margin-top: -30px; margin-left:150px;">{{ empregado.data_admissao|date:"F" }}</p>
+				<p style="margin-top: -30px; margin-left:300px;">{{ empregado.data_admissao|date:"Y" }}</p>
+				<p style="margin-top: 30px; margin-left:180px;">R${{ empregado.salario|floatformat:2 }}</p>
+				<p style="margin-top: 50px; margin-left:120px;">[ASSINE AQUI]</p>
+			</div>
+			
+			<hr>
+
+            <footer>
+                <p>&copy; EmpregadoSimples 2013</p>
+            </footer>
+		</div>
