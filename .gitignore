@@ -1,6 +1,7 @@
 *.log
 *.bat
 manage_live.py[cod]
+sqlite.db3
 *.py[cod]
 
 # C extensions

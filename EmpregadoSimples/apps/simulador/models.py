@@ -13,7 +13,6 @@ from django.db import models
 
 
 class Aliquotas(models.Model):
-    
     vigencia = models.DateField()
     faixa_inicio = models.FloatField()
     faixa_fim = models.FloatField()
