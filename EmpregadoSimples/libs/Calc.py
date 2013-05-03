@@ -112,18 +112,16 @@ class Calc(object):
     
     
     def inss(self):
-        return self.fgts_employee() + self.fgts_employer()
+        return self.inss_employee() + self.inss_employer()
     
     
     def inss_employee(self):
-        #TODO: tratar o teto
-        ret = self.salary * self.aliquotas.inss_empregador    
+        ret = self.aliquotas.inss_empregado(self.salary)    
         return ret * -1
     
     
     def inss_employer(self):
-        #TODO: tratar o teto    
-        ret = self.salary * self.aliquotas.inss_empregador
+        ret = self.aliquotas.getInssEmpregador(self.salary)
         return ret * -1
     
     
@@ -173,7 +171,7 @@ class Calc(object):
         return round((self.salary / 12) * -1, 2)
     
     def prov_inss_ferias_decimo(self):
-        return round ( (self.prov_ferias_total() *.12) + (self.prov_decimoTerceiro() *.12) , 2 )
+        return round(((self.aliquotas.getInssEmpregador(self.salary + (self.salary/3))/12) + (self.aliquotas.getInssEmpregador(self.salary) /12) ) * -1  , 2)
     
     def prov_fgts_ferias_decimo(self):
         return round ( (self.prov_ferias_total() *.08) + (self.prov_decimoTerceiro() *.08) , 2 )
