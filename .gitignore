@@ -2,8 +2,7 @@
 *.bat
 manage_live.py[cod]
 sqlite.db3
-#*.py[cod]
-#!EmpregadoSimples/libs*
+*.py[cod]
 
 # C extensions
 *.so
@@ -20,7 +19,7 @@ var
 sdist
 develop-eggs
 .installed.cfg
-lib
+#lib
 lib64
 
 # Installer logs

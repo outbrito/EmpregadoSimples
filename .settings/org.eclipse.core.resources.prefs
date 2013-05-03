@@ -12,4 +12,6 @@ encoding//EmpregadoSimples/libs/ho/__init__.py=ISO-8859-1
 encoding//EmpregadoSimples/libs/html5forms/__init__.py=utf-8
 encoding//EmpregadoSimples/libs/paypal/standard/forms.py=utf-8
 encoding//EmpregadoSimples/libs/paypal/standard/ipn/views.py=utf-8
+encoding//EmpregadoSimples/libs/sx/pisa3/pisa_util.py=ISO-8859-1
+encoding//EmpregadoSimples/libs/sx/pisa3/pisa_version.py=ISO-8859-1
 encoding//EmpregadoSimples/urls.py=utf-8
