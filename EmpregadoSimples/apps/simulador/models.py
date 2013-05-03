@@ -25,17 +25,20 @@ class Aliquotas(models.Model):
     def __unicode__(self):
         return "%.2f ate %.2f" %(self.faixa_inicio, self.faixa_fim) 
     
-    
-    def getInssEmpregado (self, salario):
-        return eval(self.inss_empregado, locals={'salario': salario})
-    
-        
-    def getInssEmpregador (self, salario):
-        return eval(self.inss_empregador, locals={'salario': salario})
-    
-    @classmethod
-    def getAliquotas(cls, salario):
-        return Aliquotas.objects.get(faixa_inicio__lte=salario, faixa_fim__gte=salario)
-
     class Meta:
         verbose_name_plural = "Aliquotas"
+    
+
+def getAliquotas(salario):
+    return Aliquotas.objects.get(faixa_inicio__lte=salario, faixa_fim__gte=salario)
+
+def getInssEmpregado (salario):
+    aliquotas = Aliquotas.objects.get(faixa_inicio__lte=salario, faixa_fim__gte=salario)
+    return eval(aliquotas.inss_enpregado)
+
+    
+def getInssEmpregador (salario):
+    aliquotas = Aliquotas.objects.get(faixa_inicio__lte=salario, faixa_fim__gte=salario)
+    return eval(aliquotas.inss_enpregador)
+
+    
