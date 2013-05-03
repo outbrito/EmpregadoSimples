@@ -13,11 +13,12 @@ from django.contrib import admin
 from models import *
 
 
-class PerfilUsuarioAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'tipo_inscricao', 'expiracao')
+#class PerfilUsuarioAdmin(admin.ModelAdmin):
+#    list_display = ('usuario', 'tipo_inscricao', 'expiracao')
     
 
 admin.site.register(Cidade)
 admin.site.register(Estado)
 admin.site.register(Estabelecimento)
-admin.site.register(PerfilUsuario, PerfilUsuarioAdmin)
+admin.site.register(PerfilUsuario)
+#admin.site.register(PerfilUsuario, PerfilUsuarioAdmin)

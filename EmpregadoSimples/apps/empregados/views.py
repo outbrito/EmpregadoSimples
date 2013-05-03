@@ -16,13 +16,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 # Project Imports
 from forms import FormEmpregado
 from models import Empregado
-from EmpregadoSimples.tools import render_to_pdf
+from tools import render_to_pdf
 from EmpregadoSimples.settings import PAYPAL_RECEIVER_EMAIL
 from paypal.standard.forms import PayPalPaymentsForm
 
-
-def user_perfil_expired(user):
-    return not user.perfil.expired()
 
 @login_required
 def novo(request):
@@ -46,6 +43,33 @@ def novo(request):
                               ret,
                               context_instance=RequestContext(request)
                               )
+
+
+@login_required
+def contratacao(request, id):
+    id = int(id)
+    try:
+        e = Empregado.objects.get(id=id, conta__id=request.user.id)
+        form = FormEmpregado(instance=e)
+        
+        # Create the instance.
+        ret = render_to_response('empregados/contratacao.html',
+                              {
+                               'form': form,
+                               'empregado': e,
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    except Empregado.DoesNotExist:
+        msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
+        ret = render_to_response('home/home.html',
+                              {
+                               'error': msg
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    
+    return ret
 
 
 @login_required
@@ -125,7 +149,56 @@ def ctps_pdf(request, id):
         
         ret = render_to_pdf('empregados/ctps_pdf.html',
                               {
+                               'empregado': e,
+                               'user': request.user
+                               },
+                            )
+    except Empregado.DoesNotExist:
+        msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
+        ret = render_to_response('home/home.html',
+                              {
+                               'error': msg
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    
+    return ret
+
+
+@login_required
+def contrato(request, id):
+    id = int(id)
+    try:
+        e = Empregado.objects.get(id=id, conta__id=request.user.id)
+        
+        ret = render_to_response('empregados/contrato_pdf.html',
+                              {
                                'empregado': e
+                               },
+                              context_instance=RequestContext(request)
+                            )
+    except Empregado.DoesNotExist:
+        msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
+        ret = render_to_response('home/home.html',
+                              {
+                               'error': msg
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    
+    return ret
+
+
+@login_required
+def contrato_pdf(request, id):
+    id = int(id)
+    try:
+        e = Empregado.objects.get(id=id, conta__id=request.user.id)
+        
+        ret = render_to_pdf('empregados/contrato_pdf.html',
+                              {
+                               'empregado': e,
+                               'user': request.user
                                }
                             )
     except Empregado.DoesNotExist:

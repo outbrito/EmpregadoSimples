@@ -82,7 +82,7 @@ class FormUsuario(forms.ModelForm):
 class FormRegistrar(forms.ModelForm):
     username = Html5CharField(placeholder="Login...", label="Login")
     password = Html5CharField(placeholder="Senha...", label="Senha", widget=Html5PasswordInput(attrs={'onchange':"form.password2.pattern = this.value;"}))
-    password2 = Html5CharField(placeholder="Senha novamente...", label="Confirme a Senha")
+    password2 = Html5CharField(placeholder="Senha novamente...", label="Confirme a Senha", widget=Html5PasswordInput())
     first_name = Html5CharField(placeholder="Nome...", label="Nome Completo")
     last_name = Html5CharField(placeholder="Sobrenome...", label="Sobrenome", required=False)
     email = Html5EmailField(placeholder="E-mail...")

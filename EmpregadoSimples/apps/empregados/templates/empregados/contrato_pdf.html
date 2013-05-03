@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+        <script src="{% static 'js/vendor/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+        
+    </head>
+    <body>
+		<div class="container">
+			<h1>Contrato de Trabalho</h1>
+			<hr>
+			<div class="row-fluid">
+				<div class="span12"
+					<p>O presente contrato está sendo elaborado com o objetivo de estabelecer regras da prestação de serviços domésticos e horários de trabalho de forma conjunta, por parte da contratada <b>{{ empregado.nome }} {{ empregado.sobrenome }}</b> e do contratante <b>{{ user.first_name }} {{ user.last_name }}</b>.</p>
+					<p>Serão <b>{{ empregado.horas_semana }} horas de trabalho por semana</b>. Se ultrapassada essa jornada, será feito o pagamento das horas extras e do adicional noturno. Também será feito um controle de horas por meio de um registro de pontos mensal assinado diariamente e verificado mensalmente por ambas as partes.</p>
+					<p>A contratada trabalhará (informar os dias; de segunda sexta, por exemplo), (informar o horário), ficando à disposição do empregador neste período. O salário será de <b>R${{ empregado.salario|floatformat:2 }}</b>.</p>
+					<p>As contribuições relativas ao FGTS e ao INSS serão recolhidas na forma da lei.</p>
+					<p>O contrato tem início a partir do dia <b>{{ empregado.data_admissao }}</b>.</p>
+				</div>
+			</div>
+			
+			<div class="row-fluid">
+				<div class="span4 text-center">
+					<p>___________________________________________</p>
+					<p>Assinatura da contratada</p>
+					<p>___________________________________________</p>
+					<p>Assinatura do contratante</p>
+				</div>
+				<div class="span4 offset4 text-center">
+					<p>___________________________________________</p>
+					<p>Assinatura da testemunha da contratada</p>
+					<p>___________________________________________</p>
+					<p>Assinatura da testemunha do contratante</p>
+				</div>
+			</div>
+			
+			<hr>
+
+            <footer>
+                <p>&copy; EmpregadoSimples 2013</p>
+            </footer>
+		</div>

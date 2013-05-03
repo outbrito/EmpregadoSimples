@@ -7,22 +7,29 @@
                         <span class="icon-bar"></span>
                     </a>
                     <!-- <img style="float: left;" src="img/men_at_work.png" alt="" width="32px" heigth="32px"/> -->
-                    <a class="brand" href="{% url 'EmpregadoSimples.apps.home.views.index' %}">EmpregadoSimples<small style="margin-left:-3px;color:#EEEE00;font-size:12px;"><i>beta</i></small></a>
+                    <a class="brand" href="{% url 'apps.home.views.index' %}">EmpregadoSimples<small style="margin-left:-3px;color:#EEEE00;font-size:12px;"><i>beta</i></small></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                            	{% if user.is_authenticated %}
-                            <li class="active"><a href="{% url 'EmpregadoSimples.apps.home.views.home' %}">Home</a></li>
+                            <li class="active"><a href="{% url 'apps.home.views.home' %}">Home</a></li>
                             {% endif %}
                             <li><a href="#about">Sobre</a></li>
-                            <li><a href="#contact" data-remote="{% url 'EmpregadoSimples.apps.contato.views.form_contato' %}" data-toggle="modal">Contato</a></li>
-                            {% if user.is_authenticated and not user.perfil.expired %}
+                            <li><a href="#contact" data-remote="{% url 'apps.contato.views.form_contato' %}" data-toggle="modal">Contato</a></li>
+                            {% if user.is_authenticated %}
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Empregados <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-header">Ativos</li>
                                     {% for e in user.empregados.all %}
                                     {% if not e.data_demissao %}
-                                    <li><a href="{% url 'EmpregadoSimples.apps.empregados.views.empregado' e.id %}">{{ e.nome }}</a></li>
+                                    <li class="dropdown-submenu"><a tabindex="-1" href="#">{{ e.nome }}</a>
+                                    	<ul class="dropdown-menu">
+		                                    <li><a href="{% url 'apps.empregados.views.contratacao' e.id %}">Contratação</a></li>
+		                                    <li><a href="{# url 'apps.empregados.views.mensal' e.id #}">Rotinas Mensais</a></li>
+									    </ul>
+									</li>
+                                    
+                                    
                                     {% endif %}
                                     {% endfor %}
                                     <li class="divider"></li>
@@ -33,7 +40,7 @@
                                     {% endif %}
                                     {% endfor %}
                                     <li class="divider"></li>
-                                    <li><a href="{% url 'EmpregadoSimples.apps.empregados.views.novo' %}">Novo Empregado</a></li>
+                                    <li><a href="{% url 'apps.empregados.views.novo' %}">Novo Empregado</a></li>
                                 </ul>
                             </li>
                             {% endif %}

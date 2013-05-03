@@ -20,11 +20,15 @@ TIPO_INSCRICAO = (
                   (3, 'Subscricao Permanente')
                   )
 
+TIPO_PAGAMENTO = (
+                  ("Pay Pal", "Pay Pal"),
+                  )
+
 class PerfilUsuario(models.Model):
     usuario = models.OneToOneField(User, related_name="perfil", primary_key=True)
     cpf_cnpj = models.CharField("CPF/CNPJ", max_length=20, null=True, blank=True)
-    tipo_inscricao = models.IntegerField("Tipo de Inscrição", choices=TIPO_INSCRICAO, default=1)
-    expiracao = models.DateField("Data de Expiração", default=date.today()+timedelta(days=30))
+#    tipo_inscricao = models.IntegerField("Tipo de Inscrição", choices=TIPO_INSCRICAO, default=1)
+#    expiracao = models.DateField("Data de Expiração", default=date.today()+timedelta(days=30))
     endereco = models.CharField("Endereco", null=True, blank=True, max_length=100)
     numero = models.IntegerField("Numero", null=True, blank=True)
     complemento = models.CharField("Complemento", null=True, blank=True, max_length=100)
@@ -62,3 +66,12 @@ class Estabelecimento(models.Model):
     
     def __unicode__(self):
         return self.nome
+    
+    
+class Subscricao(models.Model):
+    usuario = models.ForeignKey(User, related_name="subscricoes")
+    tipo_pagamento = models.IntegerField("Tipo", choices=TIPO_PAGAMENTO)
+    chave = models.CharField("Chave", max_length=20)
+    licencas = models.IntegerField("Licenças")
+    ativa = models.BooleanField("Ativa")
+    validade = models.DateField("Validade")

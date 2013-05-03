@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+		{% block container %}
+		<h4> Empregado {{ empregado.id}} - {{ empregado.nome }} {{empregado.sobrenome }}</h4>
+		   <hr>
+		
+		<div id="cadastro">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
+				<li><a href="#" onclick="window.open('{% url 'EmpregadoSimples.apps.empregados.views.contrato_pdf' empregado.id %}')" data-toggle="tab">Contrato</a></li>
+				<li><a href="#" onclick="window.open('{% url 'EmpregadoSimples.apps.empregados.views.ctps_pdf' empregado.id %}')" data-toggle="tab">Anotação CTPS</a></li>
+			</ul>
+		 	<div class="active tab-content">
+			 	<div id="dados" class="active tab-pane">
+			 		{{ form.as_p }}
+			 	</div>
+				<div id="contrato" class="tab-pane">
+				 	<p>TO-DO</p>
+				</div>
+			 	<div id="ctps" class="tab-pane">
+			 		<p>TO-DO</p>
+			 	</div>
+			</div>	  
+		</div>
+		{% endblock %}
+		
+		{% block js%}
+		<script>
+			$("#custos").load("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' empregado=empregado.id %}");
+		</script>
+		{% endblock %}

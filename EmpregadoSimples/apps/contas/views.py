@@ -31,9 +31,9 @@ def registrar(request):
         if form.is_valid():
             user_form = form.save(commit=False)
             user = User.objects.create_user(username=user_form.username, password=user_form.password, email=user_form.email, first_name=user_form.first_name, last_name=user_form.last_name)
-            perfil = PerfilUsuario.objects.get_or_create(usuario=user)
+            perfil, true = PerfilUsuario.objects.get_or_create(usuario=user)
             
-            authenticate(username=user_form.username, password=user_form.password)
+            user = authenticate(username=user_form.username, password=user_form.password)
             login(request, user)
     
             ret =  home(request)
