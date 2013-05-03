@@ -10,7 +10,7 @@ Created on 13/04/2013
 # Django Imports
 # Project Imports
 from EmpregadoSimples.apps.empregados.models import Empregado
-from EmpregadoSimples.apps.simulador.models import getAliquotas
+from EmpregadoSimples.apps.simulador.models import Aliquotas
 
 
 class Calc(object):
@@ -53,7 +53,7 @@ class Calc(object):
         self.transport_cost = float(transport_cost)
         self.transport_xtimes_day = int(transport_xtimes_day)
         self.extra_hour_perc = float(extra_hour_perc)
-        self.aliquotas = getAliquotas(self.salary)
+        self.aliquota = Aliquotas.getAliquotas(self.salary)
         
     
     def worked_hour(self):
@@ -116,21 +116,21 @@ class Calc(object):
     
     
     def inss_employee(self):
-        ret = self.aliquotas.inss_empregado(self.salary)    
+        ret = self.aliquota.inss_empregado(self.salary)    
         return ret * -1
     
     
     def inss_employer(self):
-        ret = self.aliquotas.getInssEmpregador(self.salary)
+        ret = self.aliquota.getInssEmpregador(self.salary)
         return ret * -1
     
     
     def fgts_employer(self):
-        ret = self.salary * self.aliquotas.fgts_empregador
+        ret = self.salary * self.aliquota.fgts_empregador
         return ret * -1
     
     def fgts_employee(self):
-        ret = self.salary * self.aliquotas.fgts_empregado
+        ret = self.salary * self.aliquota.fgts_empregado
         return ret * -1
     
     
@@ -171,7 +171,7 @@ class Calc(object):
         return round((self.salary / 12) * -1, 2)
     
     def prov_inss_ferias_decimo(self):
-        return round(((self.aliquotas.getInssEmpregador(self.salary + (self.salary/3))/12) + (self.aliquotas.getInssEmpregador(self.salary) /12) ) * -1  , 2)
+        return round(((self.aliquota.getInssEmpregador(self.salary + (self.salary/3))/12) + (self.aliquota.getInssEmpregador(self.salary) /12) ) * -1  , 2)
     
     def prov_fgts_ferias_decimo(self):
         return round ( (self.prov_ferias_total() *.08) + (self.prov_decimoTerceiro() *.08) , 2 )
