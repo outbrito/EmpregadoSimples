@@ -2,7 +2,8 @@
 *.bat
 manage_live.py[cod]
 sqlite.db3
-*.py[cod]
+#*.py[cod]
+#!EmpregadoSimples/libs*
 
 # C extensions
 *.so
