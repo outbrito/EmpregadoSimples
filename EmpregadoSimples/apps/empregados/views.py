@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from forms import FormEmpregado
 from models import Empregado
 from tools import render_to_pdf
-from EmpregadoSimples.settings import PAYPAL_RECEIVER_EMAIL
+from settings import PAYPAL_RECEIVER_EMAIL
 from paypal.standard.forms import PayPalPaymentsForm
 
 
@@ -30,14 +30,17 @@ def novo(request):
             e.conta = request.user
             e.save()
             
-            ret = HttpResponseRedirect(reverse('EmpregadoSimples.apps.empregados.views.empregado', args=(e.id,)))
+            ret = HttpResponseRedirect(reverse('apps.empregados.views.empregado', args=(e.id,)))
         else:
             ret = {'form': form, 'error': "Verifique os erros abaixo"}
             
     else:
-        form = FormEmpregado() # An unbound form
-        
-        ret = {'form': form}
+        if request.user.perfil.licencas_livres() > 0:
+            form = FormEmpregado() # An unbound form
+            
+            ret = {'form': form}
+        else:
+            ret = {'alert': "Você não possui licenças livres para cadastrar um novo Empregado. Por favor, acesse o menu com seu nome acima e escolha 'Licenças' para adicionar mais licenças de cadastro à sua conta."}
     
     return render_to_response('empregados/novo.html',
                               ret,
@@ -89,8 +92,8 @@ def empregado(request, id):
             "item_name": "Cadastro de Empregado",
             "invoice": invoice_id,
             "notify_url": "https://empregadosimples.com/_14py4p0nr0t3r/",
-            "return_url": reverse('EmpregadoSimples.apps.empregados.views.empregado', args=(e.id,)),
-            "cancel_return": reverse('EmpregadoSimples.apps.empregados.views.empregado', args=(e.id,)),
+            "return_url": reverse('apps.empregados.views.empregado', args=(e.id,)),
+            "cancel_return": reverse('apps.empregados.views.empregado', args=(e.id,)),
     
         }
     

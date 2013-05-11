@@ -8,8 +8,8 @@
 		<div id="cadastro">
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
-				<li><a href="#" onclick="window.open('{% url 'EmpregadoSimples.apps.empregados.views.contrato_pdf' empregado.id %}')" data-toggle="tab">Contrato</a></li>
-				<li><a href="#" onclick="window.open('{% url 'EmpregadoSimples.apps.empregados.views.ctps_pdf' empregado.id %}')" data-toggle="tab">Anotação CTPS</a></li>
+				<li><a href="#" onclick="window.open('{% url 'apps.empregados.views.contrato_pdf' empregado.id %}')" data-toggle="tab">Contrato</a></li>
+				<li><a href="#" onclick="window.open('{% url 'apps.empregados.views.ctps_pdf' empregado.id %}')" data-toggle="tab">Anotação CTPS</a></li>
 			</ul>
 		 	<div class="active tab-content">
 			 	<div id="dados" class="active tab-pane">
@@ -27,6 +27,6 @@
 		
 		{% block js%}
 		<script>
-			$("#custos").load("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' empregado=empregado.id %}");
+			$("#custos").load("{% url 'apps.simulador.views.simulated_contract' empregado=empregado.id %}");
 		</script>
 		{% endblock %}

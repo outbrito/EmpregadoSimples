@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+		{% block container %}
+		<div class="row">
+			<div class="span4 alert alert-info text-center">
+				<h6 class="text-center">Subscrever usando seu <img src="{% static 'img/paypal_icon.jpg' %}"/></h6>  
+				{{ form_pay }}
+			</div>
+		</div>
+		{% endblock %}

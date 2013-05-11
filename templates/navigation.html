@@ -68,6 +68,7 @@
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown">{{ user.first_name }} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{% url 'apps.contas.views.home' %}">Minha Conta</a></li>
+                                    <li><a href="{% url 'apps.contas.views.licencas' %}">Licenças <small class="muted">[{{ user.perfil.licencas_livres }} livres]</small></a></li>
                                     <li class="divider"></li>
 		                        	<li><a href="{% url 'django.contrib.auth.views.logout' %}">Sair</a></li>
                                 </ul>

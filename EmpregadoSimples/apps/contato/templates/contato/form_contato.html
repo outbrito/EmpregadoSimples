@@ -28,7 +28,7 @@
 					var email = $("#email").val();
 					var msg = $("#msg").val();
 					
-					$.post("{% url 'EmpregadoSimples.apps.contato.views.contato_enviar' %}",
+					$.post("{% url 'apps.contato.views.contato_enviar' %}",
 							"csrfmiddlewaretoken=" + token + "&nome=" + nome + "&email=" + email + "&msg=" + msg,
 							function(data){
 								$("#contact .modal-body").html(data.responseText);

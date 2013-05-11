@@ -11,8 +11,8 @@ Created on 15/04/2013
 from django.shortcuts import render_to_response
 from django.shortcuts import RequestContext
 # Project Imports
-from EmpregadoSimples.libs.Calc import Calc
-from EmpregadoSimples.apps.empregados.models import Empregado 
+from Calc import Calc
+from apps.empregados.models import Empregado 
 
 
 def simulate_contract(request):

@@ -15,7 +15,7 @@
 						var transporte_por_dia = $("#transporte_por_dia").val();
 						
 						
-						$.post("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' %}",
+						$.post("{% url 'apps.simulador.views.simulated_contract' %}",
 								"csrfmiddlewaretoken=" + token + "&salario=" + salario + "&jornada_semanal=" + jornada_semanal + "&custo_transporte=" + custo_transporte + "&transporte_por_dia=" + transporte_por_dia,
 								function(data){
 									$("#simulador .modal-body").html(data);

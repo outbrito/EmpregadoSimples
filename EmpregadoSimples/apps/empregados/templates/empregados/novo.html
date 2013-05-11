@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 		{% block container %}
+		
+		{% if form %}
 		<h2>Novo Empregado</h2>
 		<hr>
-		<form class="span12" action="{% url 'EmpregadoSimples.apps.empregados.views.novo' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+		<form class="span12" action="{% url 'apps.empregados.views.novo' %}" method="POST" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
 			{% csrf_token %}
 			{% for field in form %}
 				<div class="row">
@@ -19,4 +21,5 @@
 			
 			<input type="submit" value="Submit" />
 		</form>
+		{% endif %}
 		{% endblock %}

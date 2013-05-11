@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 		{% block container %}
-		  <form method="POST" action="{% url 'EmpregadoSimples.apps.contas.views.home' %}">
+		  <form method="POST" action="{% url 'apps.contas.views.home' %}">
 			{% csrf_token %}			
 			<div class="page-header">
 		      <div class="row">

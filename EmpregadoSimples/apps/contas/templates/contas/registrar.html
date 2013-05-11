@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 		{% block container %}
-		  <form method="POST" action="{% url 'EmpregadoSimples.apps.contas.views.registrar' %}">
+		  <form method="POST" action="{% url 'apps.contas.views.registrar' %}">
 			{% csrf_token %}
 
 			<div class="page-header">
@@ -22,7 +22,7 @@
 			{% endfor %}
 			
 			<div class="form-actions">
-			  <a type="button" class="btn" href="{% url 'EmpregadoSimples.apps.home.views.index' %}">Cancelar</a>
+			  <a type="button" class="btn" href="{% url 'apps.home.views.index' %}">Cancelar</a>
 			  <button type="submit" class="btn btn-primary">Finalizar Cadastro</button>
 			</div>
 		  </form>

@@ -11,7 +11,7 @@ from django.conf.urls import patterns, url, include
 # Project Imports
 
 
-urlpatterns = patterns('EmpregadoSimples.apps.empregados.views',
+urlpatterns = patterns('apps.empregados.views',
                        # Cadastro
                        url(r'^novo/?$', 'novo'),
                        url(r'^(\d*)/?$', 'empregado'),

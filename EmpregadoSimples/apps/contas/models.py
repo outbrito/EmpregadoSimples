@@ -12,6 +12,7 @@ from datetime import date, timedelta
 from django.db import models
 from django.contrib.auth.models import User
 # Project Imports
+from paypal.standard.ipn.signals import subscription_signup, subscription_modify, subscription_cancel, subscription_eot
 
 
 TIPO_INSCRICAO = (
@@ -27,8 +28,6 @@ TIPO_PAGAMENTO = (
 class PerfilUsuario(models.Model):
     usuario = models.OneToOneField(User, related_name="perfil", primary_key=True)
     cpf_cnpj = models.CharField("CPF/CNPJ", max_length=20, null=True, blank=True)
-#    tipo_inscricao = models.IntegerField("Tipo de Inscrição", choices=TIPO_INSCRICAO, default=1)
-#    expiracao = models.DateField("Data de Expiração", default=date.today()+timedelta(days=30))
     endereco = models.CharField("Endereco", null=True, blank=True, max_length=100)
     numero = models.IntegerField("Numero", null=True, blank=True)
     complemento = models.CharField("Complemento", null=True, blank=True, max_length=100)
@@ -36,12 +35,14 @@ class PerfilUsuario(models.Model):
     estado = models.ForeignKey("Estado", null=True, blank=True)
     estabelecimento = models.ForeignKey("Estabelecimento", null=True, blank=True)
     
+    licencas = models.IntegerField("Licenças", default=1)
+    expiracao = models.DateField("Data de Expiração", default=date.today()+timedelta(days=30))
+    
     def expired(self):
-        if self.tipo_inscricao == 3:
-            ret = False
-        else:
-            ret = date.today() > self.expiracao
-        return ret
+        return date.today() > self.expiracao
+    
+    def licencas_livres(self):
+        return self.licencas - self.usuario.empregados.count()    
     
     def __unicode__(self):
         return self.usuario.first_name
@@ -68,10 +69,27 @@ class Estabelecimento(models.Model):
         return self.nome
     
     
-class Subscricao(models.Model):
-    usuario = models.ForeignKey(User, related_name="subscricoes")
-    tipo_pagamento = models.IntegerField("Tipo", choices=TIPO_PAGAMENTO)
-    chave = models.CharField("Chave", max_length=20)
-    licencas = models.IntegerField("Licenças")
-    ativa = models.BooleanField("Ativa")
-    validade = models.DateField("Validade")
+############################### SIGNALS #####################################################
+def paid(sender, **kwargs):
+    ipn_obj = sender
+    # Undertake some action depending upon `ipn_obj`.
+    d = eval(ipn_obj.custom)
+    
+    user = User.objects.get(id=d["user"])
+    user.licencas = ipn_obj.quantity
+    user.save()
+    
+def cancel(sender, **kwargs):
+    ipn_obj = sender
+    # Undertake some action depending upon `ipn_obj`.
+    d = eval(ipn_obj.custom)
+    
+    user = User.objects.get(id=d["user"])
+    user.licencas = 0
+    user.save()
+            
+
+subscription_signup.connect(paid)
+subscription_modify.connect(paid)
+subscription_cancel.connect(cancel)
+subscription_eot.connect(cancel)

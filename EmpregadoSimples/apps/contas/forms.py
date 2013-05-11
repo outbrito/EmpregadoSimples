@@ -34,7 +34,7 @@ class FormPerfil(forms.ModelForm):
     
     class Meta:
         model = PerfilUsuario
-        exclude = ('usuario', 'expiracao', 'tipo_inscricao')
+        exclude = ('usuario', 'expiracao', 'licencas')
         
     def clean(self):
         cidade, estado = self.cleaned_data.get('cidade'), self.cleaned_data.get('estado')
@@ -116,3 +116,7 @@ class FormCidade(forms.ModelForm):
 class FormEstado(forms.ModelForm):
     class Meta:
         model = Estado
+        
+        
+class FormLicencas(forms.Form):
+    licencas = Html5IntegerField(placeholder="Numero...", label="Total de Licenças a Pagar")

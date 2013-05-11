@@ -9,7 +9,7 @@ Created on 15/04/2013
 from django.conf.urls import patterns, url
 
 
-urlpatterns = patterns('EmpregadoSimples.apps.home.views',
+urlpatterns = patterns('apps.home.views',
                        url(r'^$', 'index'),
                        url(r'^home/?$', 'home'),
                        )

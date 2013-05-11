@@ -11,15 +11,15 @@ Created on 21/04/2013
 from django.db import models
 from django.contrib.auth.models import User
 # Project Imports
-from EmpregadoSimples.apps.contas.models import Cidade, Estado 
-from paypal.standard.ipn.signals import payment_was_successful
-
-def show_me_the_money(sender, **kwargs):
-    ipn_obj = sender
-    # Undertake some action depending upon `ipn_obj`.
-    if ipn_obj.custom == "Upgrade all users!":
-        Empregado.objects.update(paid=True)        
-payment_was_successful.connect(show_me_the_money)
+from apps.contas.models import Cidade, Estado 
+#from paypal.standard.ipn.signals import payment_was_successful
+#
+#def show_me_the_money(sender, **kwargs):
+#    ipn_obj = sender
+#    # Undertake some action depending upon `ipn_obj`.
+#    if ipn_obj.custom == "Upgrade all users!":
+#        Empregado.objects.update(paid=True)        
+#payment_was_successful.connect(show_me_the_money)
 
 SEX_CHOICES = (
                ('M', 'Masc'),

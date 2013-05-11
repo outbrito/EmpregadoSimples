@@ -8,22 +8,25 @@ Created on 18/04/2013
 
 # Python Imports
 from datetime import date, timedelta
+from time import strftime
 # Django Imports
-from django.shortcuts import render_to_response, RequestContext
+from shortcuts import render_to_response
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 # Project Imports
-from forms import FormPerfil, FormUsuario, FormRegistrar
+from forms import FormPerfil, FormUsuario, FormRegistrar, FormLicencas
 from models import PerfilUsuario, Cidade, Estado
+import settings
+from paypal.standard.forms import PayPalPaymentsForm
 
 
 def registrar(request):
     if request.method == 'GET':
         form = FormRegistrar()
-        ret = render_to_response("contas/registrar.html", {'form': form}, context_instance=RequestContext(request))
+        ret = render_to_response("contas/registrar.html", {'form': form}, request)
         
     elif request.method == 'POST':
         form = FormRegistrar(request.POST)
@@ -38,7 +41,7 @@ def registrar(request):
     
             ret =  home(request)
         else:
-            ret = render_to_response("contas/registrar.html", {'form': form}, context_instance=RequestContext(request))
+            ret = render_to_response("contas/registrar.html", {'form': form}, request)
         
     return ret
     
@@ -92,12 +95,46 @@ def home(request):
             
         ret = {'form_usuario': form_usuario, 'form_perfil': form_perfil}
             
-    return render_to_response("contas/home.html", ret, context_instance=RequestContext(request))
+    return render_to_response("contas/home.html", ret, request)
     
 
+@login_required
+def licencas(request):
+    form = FormLicencas(initial={"licencas":request.user.perfil.licencas})
+    
+    return render_to_response("contas/licencas.html", {'form': form}, request)
+
+
+@login_required
 def pagamento(request):
-    pass
-
-
-def paypal_return(request):
-    pass
+    
+    if request.method == "POST":
+        licencas = request.POST.get('licencas')
+        
+        invoice_id = "empregadosimples.com-date=%s-uid=%d" %(strftime("%Y%m%d%H%M%S"), request.user.id)
+        # What you want the button to do.
+        paypal_dict = {
+            "lc": "pt",
+            "business": settings.PAYPAL_RECEIVER_EMAIL,
+            "amount": 5,
+            "quantity": licencas,
+            "currency_code": "BRL",
+            "item_name": "Cadastro de Empregados",
+            "invoice": invoice_id,
+            "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
+    #        "notify_url": "https://empregadosimples.com/_14py4p0nr0t3r/",
+            "return_url": reverse('apps.contas.views.pagamento'),
+            "cancel_return": reverse('apps.contas.views.pagamento'),
+            'custom' : str({"user": request.user.id}),
+    
+        }
+    
+        # Create the instance.
+        form_pay = PayPalPaymentsForm(button_type='subscribe', initial=paypal_dict)
+    
+        return render_to_response("contas/pagamento.html", 
+                                  {
+                                   "form_pay": form_pay.sandbox()
+                                   },
+                                  request
+                                  )

@@ -11,7 +11,7 @@ Created on 21/04/2013
 from django.forms import ModelForm
 # Project Imports
 from models import Empregado
-from EmpregadoSimples.libs.html5forms.fields import Html5CharField, Html5EmailField, Html5DateField,\
+from html5forms.fields import Html5CharField, Html5EmailField, Html5DateField,\
     Html5RangeField, Html5NumberField
 
 class FormEmpregado(ModelForm):

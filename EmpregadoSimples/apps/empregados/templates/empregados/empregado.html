@@ -18,7 +18,7 @@
 				  <ul class="nav nav-tabs">
 				  	<li><a href="#dados" data-toggle="tab">Dados</a></li>
 				    <li><a href="#contrato" data-toggle="tab">Contrato</a></li>
-				    <li><a href="#" onclick="window.open('{% url 'EmpregadoSimples.apps.empregados.views.ctps_pdf' empregado.id %}')" data-toggle="tab">Anotação CTPS</a></li>
+				    <li><a href="#" onclick="window.open('{% url 'apps.empregados.views.ctps_pdf' empregado.id %}')" data-toggle="tab">Anotação CTPS</a></li>
 				  </ul>
 				  <div class="tab-content">
 				  	  <div id="dados" class="tab-pane">
@@ -66,6 +66,6 @@
 		
 		{% block js%}
 		<script>
-			$("#custos").load("{% url 'EmpregadoSimples.apps.simulador.views.simulated_contract' empregado=empregado.id %}");
+			$("#custos").load("{% url 'apps.simulador.views.simulated_contract' empregado=empregado.id %}");
 		</script>
 		{% endblock %}

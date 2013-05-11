@@ -11,16 +11,16 @@ urlpatterns = patterns('',
      url(r'^login/?$', 'django.contrib.auth.views.login', {'template_name': 'contas/login.html'}),
      url(r'^logout/?$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
      
-     url(r'^registrar/?', 'EmpregadoSimples.apps.contas.views.registrar'),
+     url(r'^registrar/?', 'apps.contas.views.registrar'),
     
-     url(r'^simulador/', include('EmpregadoSimples.apps.simulador.urls')),
-     url(r'^contato/', include('EmpregadoSimples.apps.contato.urls')),
-     url(r'^conta/', include('EmpregadoSimples.apps.contas.urls')),
-     url(r'^empregado/', include('EmpregadoSimples.apps.empregados.urls')),
+     url(r'^simulador/', include('apps.simulador.urls')),
+     url(r'^contato/', include('apps.contato.urls')),
+     url(r'^conta/', include('apps.contas.urls')),
+     url(r'^empregado/', include('apps.empregados.urls')),
      
      url(r'^_14py4p0nr0t3r/', include('paypal.standard.ipn.urls')),
      
-     url(r'^/?', include('EmpregadoSimples.apps.home.urls')),
+     url(r'^/?', include('apps.home.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
      url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

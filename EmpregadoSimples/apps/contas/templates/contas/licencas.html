@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+		{% block container %}
+		<div class="page-header">
+	      <div class="row">
+		    <div class="span2">
+		      <h6>Licenças Atuais: {{ user.perfil.licencas }}</h6>
+		      <h6>Licenças em Uso: {{ user.empregados.count }}</h6>
+		    </div>
+		  </div>
+		</div>
+		<div class="row">
+		    <div id="pay" class="span4">
+				<form id="form_licencas" method="POST" action="{% url 'apps.contas.views.pagamento' %}">
+					{% csrf_token %}
+					{{ form }}
+					<button type="submit" class="btn btn-primary">Comprar Licenças</button>
+				</form>
+			</div>
+		</div>
+		{% endblock %}

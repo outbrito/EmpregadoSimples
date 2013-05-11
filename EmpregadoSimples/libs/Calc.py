@@ -9,8 +9,8 @@ Created on 13/04/2013
 # Python Imports
 # Django Imports
 # Project Imports
-from EmpregadoSimples.apps.empregados.models import Empregado
-from EmpregadoSimples.apps.simulador.models import getAliquotas
+from apps.empregados.models import Empregado
+from apps.simulador.models import getAliquotas
 
 
 class Calc(object):
