@@ -8,4 +8,4 @@ EMAIL_USE_TLS = True
 
 PAYPAL_RECEIVER_EMAIL = "seller@empregadosimples.com"
 
-SITE_NAME = "http://localhost:8000"
+SITE_NAME = "http://empregadosimples.com/teste/"

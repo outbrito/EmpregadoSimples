@@ -22,8 +22,20 @@ def render_to_pdf(template_src, context_dict):
     context = Context(context_dict)
     html  = template.render(context)
     result = StringIO.StringIO()
-
-    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), result)
+    
+    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")),
+                                            dest=result,
+                                            encoding='UTF-8',
+                                            link_callback=fetch_resources)
     if not pdf.err:
         return HttpResponse(result.getvalue(), mimetype='application/pdf')
     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+
+def fetch_resources(uri, rel):
+    import os.path
+    import settings
+    path = os.path.join(
+            settings.STATICFILES_DIRS[0],
+            uri.replace(settings.STATIC_URL, ""))
+    print path
+    return path

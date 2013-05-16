@@ -70,14 +70,23 @@ class Estabelecimento(models.Model):
     
     
 ############################### SIGNALS #####################################################
+def registered(sender, **kwargs):
+    ipn_obj = sender
+    # Undertake some action depending upon `ipn_obj`.
+    d = eval(ipn_obj.custom)
+    
+    user = User.objects.get(id=d["user"])
+    user.perfil.licencas = ipn_obj.quantity
+    user.perfil.save()
+    
 def paid(sender, **kwargs):
     ipn_obj = sender
     # Undertake some action depending upon `ipn_obj`.
     d = eval(ipn_obj.custom)
     
     user = User.objects.get(id=d["user"])
-    user.licencas = ipn_obj.quantity
-    user.save()
+    user.perfil.expiracao = date.today()+timedelta(days=30)
+    user.perfil.save()
     
 def cancel(sender, **kwargs):
     ipn_obj = sender
@@ -89,7 +98,7 @@ def cancel(sender, **kwargs):
     user.save()
             
 
-subscription_signup.connect(paid)
-subscription_modify.connect(paid)
-subscription_cancel.connect(cancel)
-subscription_eot.connect(cancel)
+subscription_signup.connect(registered)
+subscription_modify.connect(registered)
+#subscription_cancel.connect(cancel)
+#subscription_eot.connect(cancel)

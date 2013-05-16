@@ -114,19 +114,23 @@ def pagamento(request):
         invoice_id = "empregadosimples.com-date=%s-uid=%d" %(strftime("%Y%m%d%H%M%S"), request.user.id)
         # What you want the button to do.
         paypal_dict = {
+            "cmd": "_xclick-subscriptions",
             "lc": "pt",
             "business": settings.PAYPAL_RECEIVER_EMAIL,
-            "amount": 5,
+            "a3": 5,                      # monthly price 
+            "p3": 30,                           # duration of each unit (depends on unit)
+            "t3": "D",                         # duration unit ("M for Month")
+            "src": "1",                        # make payments recur
+            "sra": "1",                        # reattempt payment on payment error
+#            "no_note": "1",                    # remove extra notes (optional)
             "quantity": licencas,
             "currency_code": "BRL",
             "item_name": "Cadastro de Empregados",
             "invoice": invoice_id,
             "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
-    #        "notify_url": "https://empregadosimples.com/_14py4p0nr0t3r/",
             "return_url": reverse('apps.contas.views.pagamento'),
             "cancel_return": reverse('apps.contas.views.pagamento'),
             'custom' : str({"user": request.user.id}),
-    
         }
     
         # Create the instance.
