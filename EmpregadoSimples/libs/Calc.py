@@ -116,7 +116,7 @@ class Calc(object):
     
     
     def inss_employee(self):
-        ret = self.aliquotas.inss_empregado(self.salary)    
+        ret = self.aliquotas.getInssEmpregado(self.salary)    
         return ret * -1
     
     
@@ -171,7 +171,11 @@ class Calc(object):
         return round((self.salary / 12) * -1, 2)
     
     def prov_inss_ferias_decimo(self):
-        return round(((self.aliquotas.getInssEmpregador(self.salary + (self.salary/3))/12) + (self.aliquotas.getInssEmpregador(self.salary) /12) ) * -1  , 2)
+        provINSSFerias = self.aliquotas.getInssEmpregador(self.salary + (self.salary/3) ) / 12   
+        provINSSDecimo = self.aliquotas.getInssEmpregador(self.salary)  / 12
+        
+        return round( ( provINSSFerias + provINSSDecimo) * -1 , 2 )
+    
     
     def prov_fgts_ferias_decimo(self):
         return round ( (self.prov_ferias_total() *.08) + (self.prov_decimoTerceiro() *.08) , 2 )
