@@ -37,4 +37,4 @@ nosetests.xml
 .pydevproject
 
 manage_live.py[cod]
-sqlite.db3
+#sqlite.db3
