@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block container %}
+	<h3> {{ user.first_name }}, tem certeza que deseja cancelar sua conta no EmpregadoSimples.com? </h3>
+	<h6 class="muted"> Todos os empregados serão apagados junto com sua conta. As alterações não poderão ser revertidas. Para voltar a usar o sistema, você precisará recadastrar todos os empregados. </h6>
+	<input type="button" class="btn btn-primary" value="Não" onclick="history.back(1);" /> <a class="btn" href="{% url 'apps.contas.views.cancelar' 'S' %}">Sim</a>
+{% endblock %}
+
+
+

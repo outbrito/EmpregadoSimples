@@ -10,3 +10,7 @@ EMAIL_HOST_USER = 'contato'
 EMAIL_HOST_PASSWORD = 'cabritagem@123'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
+
+PAYPAL_RECEIVER_EMAIL = "tpborion@gmail.com"
+
+SITE_NAME = "http://empregadosimples.com/"

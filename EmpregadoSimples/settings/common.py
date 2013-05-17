@@ -180,6 +180,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'payments': {
+            'handlers': ['file', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': True,
+        },
     }
 }
 

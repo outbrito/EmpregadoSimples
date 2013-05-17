@@ -16,4 +16,5 @@ urlpatterns = patterns('apps.contas.views',
                        url(r'^$', 'home'),
                        url(r'^pagamento/?$', 'pagamento'),
                        url(r'^licencas/?$', 'licencas'),
+                       url(r'^cancelar/(\w)?$', 'cancelar'),
                        )

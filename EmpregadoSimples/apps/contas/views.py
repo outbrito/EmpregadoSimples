@@ -15,10 +15,11 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 # Project Imports
 from forms import FormPerfil, FormUsuario, FormRegistrar, FormLicencas
 from models import PerfilUsuario, Cidade, Estado
+from apps.empregados.models import Empregado
 import settings
 from paypal.standard.forms import PayPalPaymentsForm
 
@@ -142,3 +143,20 @@ def pagamento(request):
                                    },
                                   request
                                   )
+        
+        
+@login_required
+def cancelar(request, op='N'):
+    if op and op.upper() == 'S':
+        user = User.objects.get(pk=request.user.id)
+        logout(request)
+        
+        for e in user.empregados.all():
+            e.delete()
+        user.perfil.delete()
+        user.delete()
+        
+        
+        return HttpResponseRedirect(reverse('apps.home.views.index'))
+    else:
+        return render_to_response('contas/cancelar.html', {}, request)
