@@ -1,7 +1,5 @@
 *.log
 *.bat
-manage_live.py[cod]
-sqlite.db3
 *.py[cod]
 
 # C extensions
@@ -37,3 +35,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+manage_live.py[cod]
+sqlite.db3
