@@ -8,6 +8,7 @@ Created on 21/04/2013
 
 # Python Imports
 from time import strftime
+from calendar import Calendar
 # Django Imports
 from django.http.response import HttpResponse, HttpResponseServerError, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -201,6 +202,101 @@ def contrato_pdf(request, id):
         ret = render_to_pdf('empregados/contrato_pdf.html',
                               {
                                'empregado': e,
+                               'user': request.user
+                               }
+                            )
+    except Empregado.DoesNotExist:
+        msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
+        ret = render_to_response('home/home.html',
+                              {
+                               'error': msg
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    
+    return ret
+
+
+@login_required
+def mensal(request, id):
+    id = int(id)
+    try:
+        e = Empregado.objects.get(id=id, conta__id=request.user.id)
+        form = FormEmpregado(instance=e)
+        
+        # Create the instance.
+        ret = render_to_response('empregados/mensal.html',
+                              {
+                               'form': form,
+                               'empregado': e,
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    except Empregado.DoesNotExist:
+        msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
+        ret = render_to_response('home/home.html',
+                              {
+                               'error': msg
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    
+    return ret
+
+
+@login_required
+def ponto(request, id, mes, ano):
+    id = int(id)
+    
+    c = Calendar()
+    gen_dates = c.itermonthdates(int(ano), int(mes))
+    dates = []
+    
+    for d in gen_dates:
+        if d.month == int(mes):
+            dates.append(d)
+    
+    try:
+        e = Empregado.objects.get(id=id, conta__id=request.user.id)
+        
+        ret = render_to_response('empregados/ponto.html',
+                              {
+                               'empregado': e,
+                               'dates': dates,
+                               'user': request.user
+                               }
+                            )
+    except Empregado.DoesNotExist:
+        msg = "Empregado '%d' não existe ou não está associado a esta conta." %id
+        ret = render_to_response('home/home.html',
+                              {
+                               'error': msg
+                               },
+                              context_instance=RequestContext(request)
+                              )
+    
+    return ret
+
+
+@login_required
+def ponto_pdf(request, id, mes, ano):
+    id = int(id)
+    
+    c = Calendar()
+    gen_dates = c.itermonthdates(int(ano), int(mes))
+    dates = []
+    
+    for d in gen_dates:
+        if d.month == int(mes):
+            dates.append(d)
+    
+    try:
+        e = Empregado.objects.get(id=id, conta__id=request.user.id)
+        
+        ret = render_to_pdf('empregados/ponto.html',
+                              {
+                               'empregado': e,
+                               'dates': dates,
                                'user': request.user
                                }
                             )

@@ -1,11 +1,11 @@
-# -*- coding: ISO-8859-1 -*-
+# -*- coding: utf-8 -*-
 
 # Copyright 2010 Dirk Holtwick, holtwick.it
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
@@ -14,14 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-__reversion__ = "$Revision: 20 $"
-__author__    = "$Author: holtwick $"
-__date__      = "$Date: 2007-10-09 12:58:24 +0200 (Di, 09 Okt 2007) $"
-
 from turbogears.decorator import weak_signature_decorator
-import sx.pisa3 as pisa
+import xhtml2pdf.pisa as pisa
 import StringIO
 import cherrypy
+
 
 def to_pdf(filename=None, content_type="application/pdf"):
     def entangle(func):
@@ -31,14 +28,17 @@ def to_pdf(filename=None, content_type="application/pdf"):
             result = pisa.CreatePDF(
                 StringIO.StringIO(output),
                 dst
-                )
+            )
             if not result.err:
                 cherrypy.response.headers["Content-Type"] = content_type
                 if filename:
                     cherrypy.response.headers["Content-Disposition"] = "attachment; filename=" + filename
                 output = dst.getvalue()
             return output
+
         return decorated
+
     return weak_signature_decorator(entangle)
+
 
 topdf = to_pdf

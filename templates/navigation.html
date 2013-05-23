@@ -26,7 +26,7 @@
                                     	<ul class="dropdown-menu">
 	                                    	{% if not user.perfil.expired %}
 		                                    <li><a href="{% url 'apps.empregados.views.contratacao' e.id %}">Contratação</a></li>
-		                                    <li><a href="{# url 'apps.empregados.views.mensal' e.id #}">Rotinas Mensais</a></li>
+		                                    <li><a href="{% url 'apps.empregados.views.mensal' e.id %}">Rotinas Mensais</a></li>
 									    	{% else %}
 		                                    <li><a href="#"><b class="text-error">CONTA EXPIRADA!</b></a></li>
 										    {% endif %}

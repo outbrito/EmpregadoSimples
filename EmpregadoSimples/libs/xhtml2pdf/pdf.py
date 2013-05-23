@@ -1,11 +1,11 @@
-# -*- coding: ISO-8859-1 -*-
+# -*- coding: utf-8 -*-
 
 # Copyright 2010 Dirk Holtwick, holtwick.it
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
@@ -14,18 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-__reversion__ = "$Revision: 20 $"
-__author__    = "$Author: holtwick $"
-__date__      = "$Date: 2007-10-09 12:58:24 +0200 (Di, 09 Okt 2007) $"
-
-from pisa_util import pisaTempFile, getFile
+from xhtml2pdf.util import pisaTempFile, getFile
 
 import logging
-log = logging.getLogger("ho.pisa")
+
+
+log = logging.getLogger("xhtml2pdf")
+
 
 class pisaPDF:
-
     def __init__(self, capacity=-1):
         self.capacity = capacity
         self.files = []
@@ -50,13 +47,14 @@ class pisaPDF:
             self.files.append(doc.dest)
 
     def join(self, file=None):
-        import pyPdf
-        if pyPdf:
-            output = pyPdf.PdfFileWriter()
-            for pdffile in self.files:
-                input = pyPdf.PdfFileReader(pdffile)
-                for pageNumber in range(0, input.getNumPages()):
-                    output.addPage(input.getPage(pageNumber))
+        import pyPdf # TODO: Why is this in the middle of everything?
+
+        output = pyPdf.PdfFileWriter()
+        for pdffile in self.files:
+            input = pyPdf.PdfFileReader(pdffile)
+            for pageNumber in xrange(input.getNumPages()):
+                output.addPage(input.getPage(pageNumber))
+
         if file is not None:
             output.write(file)
             return file

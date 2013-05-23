@@ -6,7 +6,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
@@ -39,15 +39,8 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.platypus.flowables import Flowable
 from reportlab.lib.colors import Color
 
-WORD = 1
-SPACE = 2
-BR = 3
-BEGIN = 4
-END = 5
-IMAGE = 6
 
 class Style(dict):
-
     """
     Style.
 
@@ -67,7 +60,7 @@ class Style(dict):
         "lineHeightAbsolute": None,
         "pdfLineSpacing": 0,
         "link": None,
-        }
+    }
 
     def __init__(self, **kw):
         self.update(self.DEFAULT)
@@ -76,15 +69,12 @@ class Style(dict):
         self.spaceAfter = 0
         self.keepWithNext = False
 
-class Box(dict):
 
+class Box(dict):
     """
     Box.
 
     Handles the following styles:
-
-        # underline, underLineColor (?)
-        # strike, strikeColor (?)
 
         backgroundColor, backgroundImage
         paddingLeft, paddingRight, paddingTop, paddingBottom
@@ -99,18 +89,12 @@ class Box(dict):
         paddingTop, paddingBottom
         marginTop, marginBottom
 
-    Needs also:
-
-        fontName, fontSize, color
-
     """
 
     name = "box"
 
-    def _drawBefore(self, canvas, x, y, w, h):
+    def drawBox(self, canvas, x, y, w, h):
         canvas.saveState()
-
-        textColor = self.get("color", Color(0, 0, 0))
 
         # Background
         bg = self.get("backgroundColor", None)
@@ -125,57 +109,34 @@ class Box(dict):
             if width and bstyle:
                 # If no color for border is given, the text color is used (like defined by W3C)
                 if color is None:
-                    color = textColor
-                # print "Border", bstyle, width, color
+                    color = self.get("textColor", Color(0, 0, 0))
+                    # print "Border", bstyle, width, color
                 if color is not None:
                     canvas.setStrokeColor(color)
                     canvas.setLineWidth(width)
                     canvas.line(x1, y1, x2, y2)
 
         _drawBorderLine(self.get("borderLeftStyle", None),
-            self.get("borderLeftWidth", None),
-            self.get("borderLeftColor", None),
-            x, y, x, y + h)
+                        self.get("borderLeftWidth", None),
+                        self.get("borderLeftColor", None),
+                        x, y, x, y + h)
         _drawBorderLine(self.get("borderRightStyle", None),
-            self.get("borderRightWidth", None),
-            self.get("borderRightColor", None),
-            x + w, y, x + w, y + h)
+                        self.get("borderRightWidth", None),
+                        self.get("borderRightColor", None),
+                        x + w, y, x + w, y + h)
         _drawBorderLine(self.get("borderTopStyle", None),
-            self.get("borderTopWidth", None),
-            self.get("borderTopColor", None),
-            x, y + h, x + w, y + h)
+                        self.get("borderTopWidth", None),
+                        self.get("borderTopColor", None),
+                        x, y + h, x + w, y + h)
         _drawBorderLine(self.get("borderBottomStyle", None),
-            self.get("borderBottomWidth", None),
-            self.get("borderBottomColor", None),
-            x, y, x + w, y)
-
-        # Underline
-        if self.get("underline", None):
-            ff = 0.125 * self["fontSize"]
-            yUnderline = y - 1.0 * ff
-            canvas.setLineWidth(ff * 0.75)
-            canvas.setStrokeColor(textColor)
-            canvas.line(x, yUnderline, x+w, yUnderline)
+                        self.get("borderBottomWidth", None),
+                        self.get("borderBottomColor", None),
+                        x, y, x + w, y)
 
         canvas.restoreState()
 
-    def _drawAfter(self, canvas, x, y, w, h):
-
-        # Strike
-        if self.get("strike", None):
-
-            ff = 0.125 * self["fontSize"]
-            yStrike = y + 2.0 * ff
-            textColor = self.get("color", Color(0, 0, 0))
-
-            canvas.saveState()
-            canvas.setLineWidth(ff * 0.75)
-            canvas.setStrokeColor(textColor)
-            canvas.line(x, yStrike, x+w, yStrike)
-            canvas.restoreState()
 
 class Fragment(Box):
-
     """
     Fragment.
 
@@ -187,55 +148,21 @@ class Fragment(Box):
     """
 
     name = "fragment"
-    type = None
-
     isSoft = False
     isText = False
     isLF = False
 
+
     def calc(self):
         self["width"] = 0
 
-    def __str__(self):
-        if self.isText:
-            return "'%s'" % self["text"]
-        return "<%s>" % self.name.upper()
-
-class BoxBegin(Fragment):
-
-    name = "begin"
-    type = BEGIN
-
-    def calc(self):
-        self["width"] = self.get("marginLeft", 0) + self.get("paddingLeft", 0) # + border if border
-
-    def drawBefore(self, canvas, y):
-        print repr(self)
-        x = self.get("marginLeft", 0) + self["x"]
-        w = self["length"] + self.get("paddingRight", 0)
-        h = self["fontSize"]
-        self["box"] = (x, w, h)
-        self._drawBefore(canvas, x, y, w, h)
-
-    def drawAfter(self, canvas, y):
-        x, w, h = self["box"]
-        self._drawAfter(canvas, x, y, w, h)
-
-class BoxEnd(Fragment):
-
-    name = "end"
-    type = END
-
-    def calc(self):
-        self["width"] = self.get("marginRight", 0) + self.get("paddingRight", 0) # + border
 
 class Word(Fragment):
-
-    " A single word. "
+    """
+    A single word.
+    """
 
     name = "word"
-    type = WORD
-
     isText = True
 
     def calc(self):
@@ -244,48 +171,59 @@ class Word(Fragment):
         """
         self["width"] = stringWidth(self["text"], self["fontName"], self["fontSize"])
 
-class Space(Fragment):
 
+class Space(Fragment):
     """
     A space between fragments that is the usual place for line breaking.
     """
 
     name = "space"
-    type = SPACE
-
     isSoft = True
 
     def calc(self):
         self["width"] = stringWidth(" ", self["fontName"], self["fontSize"])
 
-#def makeSpace(fn, fs):
-#    obj = Space()
-#    obj.update({"fontName": fn, "fontSize": fs})
-#    obj.calc()
-#    return obj
 
 class LineBreak(Fragment):
-    " Line break. "
+    """
+    Line break.
+    """
 
     name = "br"
-    type = BR
-
     isSoft = True
     isLF = True
 
     pass
 
+
+class BoxBegin(Fragment):
+    name = "begin"
+
+    def calc(self):
+        self["width"] = self.get("marginLeft", 0) + self.get("paddingLeft", 0) # + border if border
+
+    def draw(self, canvas, y):
+        # if not self["length"]:
+        x = self.get("marginLeft", 0) + self["x"]
+        w = self["length"] + self.get("paddingRight", 0)
+        h = self["fontSize"]
+        self.drawBox(canvas, x, y, w, h)
+
+
+class BoxEnd(Fragment):
+    name = "end"
+
+    def calc(self):
+        self["width"] = self.get("marginRight", 0) + self.get("paddingRight", 0) # + border
+
+
 class Image(Fragment):
-
     name = "image"
-    type = IMAGE
-
-    isText = True
 
     pass
 
-class Line(list):
 
+class Line(list):
     """
     Container for line fragments.
     """
@@ -296,7 +234,6 @@ class Line(list):
         self.width = 0
         self.height = 0
         self.isLast = False
-        self.br = False
         self.style = style
         self.boxStack = []
         list.__init__(self)
@@ -304,22 +241,23 @@ class Line(list):
     def doAlignment(self, width, alignment):
         # Apply alignment
         if alignment != TA_LEFT:
-            lineWidth = self[ - 1]["x"] + self[ - 1]["width"]
+            lineWidth = self[- 1]["x"] + self[- 1]["width"]
             emptySpace = width - lineWidth
             if alignment == TA_RIGHT:
-                for j, frag in enumerate(self):
+                for frag in self:
                     frag["x"] += emptySpace
             elif alignment == TA_CENTER:
-                for j, frag in enumerate(self):
+                for frag in self:
                     frag["x"] += emptySpace / 2.0
-            elif alignment == TA_JUSTIFY and not self.br: # XXX Just spaces! Currently divides also sticky fragments
+            elif alignment == TA_JUSTIFY and not self.isLast: # XXX last line before split
                 delta = emptySpace / (len(self) - 1)
-                for j, frag in enumerate(self):
-                    frag["x"] += j * delta
+                for i, frag in enumerate(self):
+                    frag["x"] += i * delta
 
         # Boxes
         for frag in self:
             x = frag["x"] + frag["width"]
+            # print "***", x, frag["x"]
             if isinstance(frag, BoxBegin):
                 self.boxStack.append(frag)
             elif isinstance(frag, BoxEnd):
@@ -329,17 +267,20 @@ class Line(list):
 
         # Handle the rest
         for frag in self.boxStack:
+            print "***", x, frag["x"]
             frag["length"] = x - frag["x"]
 
     def doLayout(self, width):
-        "Align words in previous line."
+        """
+        Align words in previous line.
+        """
 
         # Calculate dimensions
         self.width = width
-        self.height = self.lineHeight = max(frag.get("fontSize" , 0) * self.LINEHEIGHT for frag in self)
+        self.height = self.lineHeight = max(frag.get("fontSize", 0) * self.LINEHEIGHT for frag in self)
 
         # Apply line height
-        self.fontSize = max(frag.get("fontSize" , 0) for frag in self)
+        self.fontSize = max(frag.get("fontSize", 0) for frag in self)
         y = (self.lineHeight - self.fontSize) # / 2
         for frag in self:
             frag["y"] = y
@@ -347,16 +288,13 @@ class Line(list):
         return self.height
 
     def dumpFragments(self):
-        print "Line", 40*"-"
+        print "Line", 40 * "-"
         for frag in self:
             print "%s" % frag.get("text", frag.name.upper()),
         print
 
-class Group(list):
-    pass
 
 class Text(list):
-
     """
     Container for text fragments.
 
@@ -364,16 +302,16 @@ class Text(list):
     and positions.
     """
 
-    def __init__(self, data=[], style=None):
-        #self.groups = []
+    def __init__(self, data=None, style=None):
+        # Mutable arguments are a shit idea
+        if data is None:
+            data = []
+
         self.lines = []
         self.width = 0
         self.height = 0
         self.maxWidth = 0
         self.maxHeight = 0
-        self.pos = 0
-        self.oldSpace = None
-        self.newSpace = None
         self.style = style
         list.__init__(self, data)
 
@@ -381,38 +319,15 @@ class Text(list):
         """
         Calculate sizes of fragments.
         """
-        [word.calc() for word in self]
-
-    def getGroup(self):
-        self.oldSpace = self.newSpace # For Space recycing
-        group = []
-        width = 0
-        br = False
-        length = len(self)
-        while self.pos < length:
-            frag = self[self.pos]
-            type_ = frag.type
-            self.pos += 1
-            if type_ == SPACE:
-                self.newSpace = frag # For Space recycing
-                if group:
-                    break
-                continue
-            group.append(frag)
-            width += frag.get("width", 0)
-            if type_ == BR:
-                br = True
-                break
-        return width, br, group
+        for word in self:
+            word.calc()
 
     def splitIntoLines(self, maxWidth, maxHeight, splitted=False):
         """
         Split text into lines and calculate X positions. If we need more
         space in height than available we return the rest of the text
         """
-
         self.lines = []
-        self.pos = 0
         self.height = 0
         self.maxWidth = self.width = maxWidth
         self.maxHeight = maxHeight
@@ -425,82 +340,73 @@ class Text(list):
         if not splitted:
             x = style["textIndent"]
 
-        # Loop for each line
-        while 1:
+        lenText = len(self)
+        pos = 0
+        while pos < lenText:
 
             # Reset values for new line
-            posBegin = self.pos
+            posBegin = pos
             line = Line(style)
 
             # Update boxes for next line
-            for box in copy.deepcopy(boxStack):
+            for box in copy.copy(boxStack):
                 box["x"] = 0
                 line.append(BoxBegin(box))
 
-            # Loop for collecting line elements
-            while 1:
+            while pos < lenText:
 
-                # Get next group of unbreakable elements
-                self.groupPos = self.pos
-                groupWidth, br, group = self.getGroup()
+                # Get fragment, its width and set X
+                frag = self[pos]
+                fragWidth = frag["width"]
+                frag["x"] = x
+                pos += 1
 
-                # No more groups? Leave line
-                if not group:
+                # Keep in mind boxes for next lines
+                if isinstance(frag, BoxBegin):
+                    boxStack.append(frag)
+                elif isinstance(frag, BoxEnd):
+                    boxStack.pop()
+
+                # If space or linebreak handle special way
+                if frag.isSoft:
+                    if frag.isLF:
+                        line.append(frag)
+                        break
+                        # First element of line should not be a space
+                    if x == 0:
+                        continue
+                        # Keep in mind last possible line break
+
+                # The elements exceed the current line
+                elif fragWidth + x > maxWidth:
                     break
 
-                # print width, " ".join([str(x) for x in group])
+                # Add fragment to line and update x
+                x += fragWidth
+                line.append(frag)
 
-                # To we fit the line? Reset cursor and finish line
-                if (groupWidth + x > maxWidth):
-                    self.pos = self.groupPos
-                    break
-
-                # Space recycling
-                if self.oldSpace:
-                    group.insert(0, self.oldSpace)
-
-                # Add fragments to line and update x
-                for frag in group:
-
-                    # Add fragment to line and update x
-                    frag["x"] = x
-                    x += frag["width"]
-                    line.append(frag)
-
-                   # Keep in mind boxes for next lines
-                    if isinstance(frag, BoxBegin):
-                        boxStack.append(frag)
-                    elif isinstance(frag, BoxEnd):
-                        boxStack.pop()
-
-                # We got a new line forced
-                if br:
-                    line.br = True
-                    break
-
-            self.newSpace = None
+            # Remove trailing white spaces
+            while line and line[-1].name in ("space", "br"):
+                # print "Pop",
+                line.pop()
 
             # Add line to list
             line.dumpFragments()
-
-            if line:
-                self.height += line.doLayout(self.width)
-                self.lines.append(line)
+            # if line:
+            self.height += line.doLayout(self.width)
+            self.lines.append(line)
 
             # If not enough space for current line force to split
             if self.height > maxHeight:
                 return posBegin
 
-            # Reached the end
-            if not group:
-                break
-
             # Reset variables
             x = 0
 
         # Apply alignment
-        self.lines[ - 1].br = True
-        [line.doAlignment(maxWidth, style["textAlign"]) for line in self.lines]
+        self.lines[- 1].isLast = True
+        for line in self.lines:
+            line.doAlignment(maxWidth, style["textAlign"])
 
         return None
 
@@ -508,14 +414,14 @@ class Text(list):
         """
         For debugging dump all line and their content
         """
-        i = 0
-        for line in self.lines:
+        for i, line in enumerate(self.lines):
             print "Line %d:" % i,
             line.dumpFragments()
-            i += 1
+
 
 class Paragraph(Flowable):
-    """A simple Paragraph class respecting alignment.
+    """
+    A simple Paragraph class respecting alignment.
 
     Does text without tags.
 
@@ -525,11 +431,9 @@ class Paragraph(Flowable):
     (spaceBefore, spaceAfter are handled by the Platypus framework.)
 
     """
-
     def __init__(self, text, style, debug=False, splitted=False, **kwDict):
 
         Flowable.__init__(self)
-        # self._showBoundary = True
 
         self.text = text
         self.text.calc()
@@ -540,16 +444,17 @@ class Paragraph(Flowable):
         self.splitted = splitted
 
         # More attributes
-        for k, v in kwDict.items():
+        for k, v in kwDict.iteritems():
             setattr(self, k, v)
 
         # set later...
         self.splitIndex = None
 
     # overwritten methods from Flowable class
-
     def wrap(self, availWidth, availHeight):
-        "Determine the rectangle this paragraph really needs."
+        """
+        Determine the rectangle this paragraph really needs.
+        """
 
         # memorize available space
         self.avWidth = availWidth
@@ -563,10 +468,8 @@ class Paragraph(Flowable):
                 print "*** wrap (%f, %f) needed" % (0, 0)
             return 0, 0
 
-        style = self.style
-
         # Split lines
-        width = availWidth # - style.leftIndent - style.rightIndent
+        width = availWidth
         self.splitIndex = self.text.splitIntoLines(width, availHeight)
 
         self.width, self.height = availWidth, self.text.height
@@ -576,14 +479,10 @@ class Paragraph(Flowable):
 
         return self.width, self.height
 
-    #def visitFirstParagraph(self, para):
-    #    return para
-
-    #def visitOtherParagraph(self, para):
-    #    return para
-
     def split(self, availWidth, availHeight):
-        "Split ourself in two paragraphs."
+        """
+        Split ourself in two paragraphs.
+        """
 
         if self.debug:
             print "*** split (%f, %f)" % (availWidth, availHeight)
@@ -604,9 +503,10 @@ class Paragraph(Flowable):
 
         return splitted
 
-
     def draw(self):
-        "Render the content of the paragraph."
+        """
+        Render the content of the paragraph.
+        """
 
         if self.debug:
             print "*** draw"
@@ -641,21 +541,15 @@ class Paragraph(Flowable):
             y += line.height
             for frag in line:
 
-                type_ = frag.type
-
                 # Box
-                if type_ == BEGIN:
-                    frag.drawBefore(canvas, dy - y)
+                if hasattr(frag, "draw"):
+                    frag.draw(canvas, dy - y)
 
                 # Text
-                if type_ == WORD:
+                if frag.get("text", ""):
                     canvas.setFont(frag["fontName"], frag["fontSize"])
                     canvas.setFillColor(frag.get("color", style["color"]))
                     canvas.drawString(frag["x"], dy - y + frag["y"], frag["text"])
-
-                # Box
-                if type_ == BEGIN:
-                    frag.drawAfter(canvas, dy - y)
 
                 # XXX LINK
                 link = frag.get("link", None)
@@ -669,8 +563,10 @@ class Paragraph(Flowable):
                     scheme = len(parts) == 2 and parts[0].lower() or ''
                     if _scheme_re.match(scheme) and scheme != 'document':
                         kind = scheme.lower() == 'pdf' and 'GoToR' or 'URI'
-                        if kind == 'GoToR': link = parts[1]
-                        tx._canvas.linkURL(link, rect, relative=1, kind=kind)
+                        if kind == 'GoToR':
+                            link = parts[1]
+
+                        canvas.linkURL(link, rect, relative=1, kind=kind)
                     else:
                         if link[0] == '#':
                             link = link[1:]
@@ -679,7 +575,9 @@ class Paragraph(Flowable):
 
         canvas.restoreState()
 
+
 if __name__ == "__main__":
+    # TODO: This should be a test, not a main!
     from reportlab.platypus import SimpleDocTemplate
     from reportlab.lib.styles import *
     from reportlab.rl_config import *
@@ -688,7 +586,6 @@ if __name__ == "__main__":
     import os
     import copy
     import re
-    import pprint
 
     styles = getSampleStyleSheet()
 
@@ -720,12 +617,11 @@ if __name__ == "__main__":
                     text="[%d|%s]" % (i, word),
                     fontName=fn,
                     fontSize=fs
-                    )
+                )
                 yield Space(
                     fontName=fn,
                     fontSize=fs
-                    )
-                i += 1
+                )
 
     def createText(data, fn, fs):
         text = Text(list(textGenerator(data, fn, fs)))
@@ -745,10 +641,19 @@ if __name__ == "__main__":
             borderBottomColor=color,
             borderBottomWidth=width,
             borderBottomStyle=style
-            )
+        )
 
-    def makeSpecial(fn="Times-Roman", fs=10):
-        return [
+    def test():
+        doc = SimpleDocTemplate("test.pdf")
+        story = []
+
+        style = Style(fontName="Helvetica", textIndent=24.0)
+        fn = style["fontName"]
+        fs = style["fontSize"]
+        sampleText1 = createText(TEXT[:100], fn, fs)
+        sampleText2 = createText(TEXT[100:], fn, fs)
+
+        text = Text(sampleText1 + [
             Space(
                 fontName=fn,
                 fontSize=fs),
@@ -768,11 +673,6 @@ if __name__ == "__main__":
             Space(
                 fontName=fn,
                 fontSize=fs),
-            BoxBegin(
-                fontName=fn,
-                fontSize=fs,
-                underline=True,
-                strike=True),
             Word(
                 text="gGrößer",
                 fontName=fn,
@@ -784,7 +684,6 @@ if __name__ == "__main__":
                 text="Bold",
                 fontName="Times-Bold",
                 fontSize=fs),
-            BoxEnd(),
             Space(
                 fontName=fn,
                 fontSize=fs),
@@ -895,53 +794,25 @@ if __name__ == "__main__":
             LineBreak(
                 fontName=fn,
                 fontSize=fs),
-            ]
-
-    def test():
-        doc = SimpleDocTemplate("test.pdf")
-        story = []
-
-        style = Style(fontName="Helvetica", textIndent=24.0)
-        fn = style["fontName"]
-        fs = style["fontSize"]
-        sampleText1 = createText(TEXT[:100], fn, fs)
-        sampleText2 = createText(TEXT[100:], fn, fs)
-
-        text = Text(sampleText1 + makeSpecial(fn, fs) + sampleText2)
+        ] + sampleText2)
 
         story.append(Paragraph(
             copy.copy(text),
             style,
             debug=0))
 
-        if 0:
-            for i in range(10):
-                style = copy.deepcopy(style)
-                style["textAlign"] = ALIGNMENTS[i % 4]
-                text = createText(("(%d) " % i) + TEXT, fn, fs)
-                story.append(Paragraph(
-                    copy.copy(text),
-                    style,
-                    debug=0))
-
+        for i in range(10):
+            style = copy.deepcopy(style)
+            style["textAlign"] = ALIGNMENTS[i % 4]
+            text = createText(("(%d) " % i) + TEXT, fn, fs)
+            story.append(Paragraph(
+                copy.copy(text),
+                style,
+                debug=0))
         doc.build(story)
 
-    def test2():
-        # text = Text(list(textGenerator(TEXT, "Times-Roman", 10)))
-        text = Text(makeSpecial())
-        text.calc()
-        print text[1].type
-        while 1:
-            width, br, group = text.getGroup()
-            if not group:
-                print "ENDE", repr(group)
-                break
-            print width, br, " ".join([str(x) for x in group])
+    test()
+    os.system("start test.pdf")
 
-    # test2()
-
-    if 1:
-        test()
-        os.system("start test.pdf")
-
+    # FIXME: Useless line?
     # createText(TEXT, styles["Normal"].fontName, styles["Normal"].fontSize)

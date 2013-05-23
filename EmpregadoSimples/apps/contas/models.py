@@ -13,7 +13,7 @@ import logging
 from django.db import models
 from django.contrib.auth.models import User
 # Project Imports
-from paypal.standard.ipn.signals import recurring_create, recurring_payment
+from paypal.standard.ipn.signals import subscription_signup, subscription_payment
 
 
 TIPO_INSCRICAO = (
@@ -74,6 +74,7 @@ class Estabelecimento(models.Model):
 logger = logging.getLogger('payments')
 def registered(sender, **kwargs):
     ipn_obj = sender
+    logger.info("subscription_signup: " + ipn_obj.custom)
     # Undertake some action depending upon `ipn_obj`.
     d = eval(ipn_obj.custom)
     
@@ -101,7 +102,7 @@ def cancel(sender, **kwargs):
     user.save()
             
 
-recurring_create.connect(registered)
-recurring_payment.connect(paid)
+subscription_signup.connect(registered)
+subscription_payment.connect(paid)
 #subscription_cancel.connect(cancel)
 #subscription_eot.connect(cancel)

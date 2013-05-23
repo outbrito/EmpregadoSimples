@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+
+		{% block container %}
+		<h4> Empregado {{ empregado.id}} - {{ empregado.nome }} {{empregado.sobrenome }}</h4>
+		<hr>
+		
+		<div id="mensal">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#ponto" data-toggle="tab">Folha de Ponto</a></li>
+				<li></li>
+				<li><a href="#" onclick="window.open('{# url 'apps.empregados.views.contracheque' empregado.id 5 2013 #}')" data-toggle="tab">Contracheque</a></li>
+			</ul>
+		 	<div class="active tab-content">
+			 	<div id="ponto" class="active tab-pane">
+			 		<div class="row">
+			 			<div class="span4">
+					 		<label>Mês</label>
+					 		<select>
+					 			<option value="1">Janeiro</option>
+					 			<option value="2">Fevereiro</option>
+					 			<option value="3">Março</option>
+					 			<option value="4">Abril</option>
+					 			<option value="5">Maio</option>
+					 			<option value="6">Junho</option>
+					 			<option value="7">Julho</option>
+					 			<option value="8">Agosto</option>
+					 			<option value="9">Setembro</option>
+					 			<option value="10">Outubro</option>
+					 			<option value="11">Novembro</option>
+					 			<option value="12">Dezembro</option>
+					 		</select>
+			 			</div>
+			 		</div>
+			 		<div class="row">
+			 			<div class="span4">
+					 		<label>Ano</label>
+					 		<select>
+					 			<option value="2013">2013</option>
+					 			<option value="2014">2014</option>
+					 			<option value="2015">2015</option>
+					 			<option value="2016">2016</option>
+					 		</select>
+					 	</div>
+					</div>
+					<div class="row">
+			 			<div class="span4">
+			 				<a class="btn btn-primary" href="#" onclick="window.open('{% url 'apps.empregados.views.ponto_pdf' empregado.id 5 2013 %}')" data-toggle="tab">Gerar Folha de Ponto</a>
+			 			</div>
+			 		</div>
+			 	</div>
+				<div id="contrato" class="tab-pane">
+				 	<p>TO-DO</p>
+				</div>
+			 	<div id="ctps" class="tab-pane">
+			 		<p>TO-DO</p>
+			 	</div>
+			</div>	  
+		</div>
+		{% endblock %}
+		
+		{% block js%}
+		<script>
+			$("#custos").load("{% url 'apps.simulador.views.simulated_contract' empregado=empregado.id %}");
+		</script>
+		{% endblock %}

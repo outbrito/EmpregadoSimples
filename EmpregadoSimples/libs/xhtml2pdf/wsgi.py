@@ -1,32 +1,29 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 # Copyright 2010 Dirk Holtwick, holtwick.it
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License. 
+# limitations under the License.
 
-__version__ = "$Revision: 103 $"
-__author__  = "$Author: holtwick $"
-__date__    = "$Date: 2007-10-31 17:08:54 +0100 (Mi, 31 Okt 2007) $"
-__svnid__   = "$Id: pisa.py 103 2007-10-31 16:08:54Z holtwick $"
-
-import ho.pisa as pisa
+import xhtml2pdf.pisa as pisa
 import StringIO
 
 import logging
-log = logging.getLogger("ho.pisa.wsgi")
+
+
+log = logging.getLogger("xhtml2pdf.wsgi")
+
 
 class Filter(object):
-
     def __init__(self, app):
         self.app = app
 
@@ -35,12 +32,14 @@ class Filter(object):
         path_info = environ.get('PATH_INFO', '')
         sent = []
         written_response = StringIO.StringIO()
+
         def replacement_start_response(status, headers, exc_info=None):
             if not self.should_filter(status, headers):
                 return start_response(status, headers, exc_info)
             else:
                 sent[:] = [status, headers, exc_info]
                 return written_response.write
+
         app_iter = self.app(environ, replacement_start_response)
         if not sent:
             return app_iter
@@ -59,13 +58,12 @@ class Filter(object):
 
     def should_filter(self, status, headers):
         print headers
-    
+
     def filter(self, status, headers, body):
         raise NotImplementedError
 
 
 class HTMLFilter(Filter):
-
     def should_filter(self, status, headers):
         if not status.startswith('200'):
             return False
@@ -73,28 +71,17 @@ class HTMLFilter(Filter):
             if name.lower() == 'content-type':
                 return value.startswith('text/html')
         return False
-    
+
+
 class PisaMiddleware(HTMLFilter):
-                  
-    def filter(self, 
-            script_name, 
-            path_info, 
-            environ,
-            status, 
-            headers, 
-            body): 
-        topdf = environ.get("pisa.topdf", "")        
-        if topdf:            
+    def filter(self, script_name, path_info, environ, status, headers, body):
+        topdf = environ.get("pisa.topdf", "")
+        if topdf:
             dst = StringIO.StringIO()
-            result = pisa.CreatePDF(
-                body,
-                dst,
-                show_error_as_pdf=True,
-                )
+            pisa.CreatePDF(body, dst, show_error_as_pdf=True)
             headers = [
                 ("content-type", "application/pdf"),
                 ("content-disposition", "attachment; filename=" + topdf)
-                ] 
-            body = dst.getvalue()              
+            ]
+            body = dst.getvalue()
         return status, headers, body
-        

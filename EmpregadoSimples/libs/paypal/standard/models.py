@@ -210,6 +210,9 @@ class PayPalStandardBase(Model):
     
     def is_subscription_signup(self):
         return self.txn_type == "subscr_signup"
+    
+    def is_subscription_payment(self):
+        return self.txn_type == "subscr_payment"
 
     def is_recurring_create(self):
         return self.txn_type == "recurring_payment_profile_created"
@@ -301,7 +304,9 @@ class PayPalStandardBase(Model):
             elif self.is_subscription_end_of_term():
                 subscription_eot.send(sender=self)
             elif self.is_subscription_modified():
-                subscription_modify.send(sender=self) 
+                subscription_modify.send(sender=self)
+            elif self.is_subscription_payment():
+                subscription_payment.send(sender=self) 
 
 
     def initialize(self, request):

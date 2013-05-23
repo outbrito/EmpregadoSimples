@@ -129,8 +129,8 @@ def pagamento(request):
             "item_name": "Cadastro de Empregados",
             "invoice": invoice_id,
             "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
-            "return_url": "%s%s" % (settings.SITE_NAME, reverse('apps.contas.views.pagamento')),
-            "cancel_return": "%s%s" % (settings.SITE_NAME, reverse('apps.contas.views.pagamento')),
+            "return_url": "%s%s" % (settings.SITE_NAME, reverse('apps.contas.views.licencas')),
+            "cancel_return": "%s%s" % (settings.SITE_NAME, reverse('apps.contas.views.licencas')),
             'custom' : str({"user": request.user.id}),
         }
     

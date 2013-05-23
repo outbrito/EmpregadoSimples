@@ -173,6 +173,12 @@ LOGGING = {
             'filename': os.path.abspath(os.path.join(os.path.dirname( __file__ ), os.path.pardir, os.path.pardir , 'EmpregadoSimples.log')),
             'formatter': 'verbose'
         },
+        'payments':{
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.abspath(os.path.join(os.path.dirname( __file__ ), os.path.pardir, os.path.pardir , 'Payments.log')),
+            'formatter': 'verbose'
+        },
     },
     'loggers': {
         'django.request': {
@@ -181,7 +187,7 @@ LOGGING = {
             'propagate': True,
         },
         'payments': {
-            'handlers': ['file', 'mail_admins'],
+            'handlers': ['payments'],
             'level': 'INFO',
             'propagate': True,
         },

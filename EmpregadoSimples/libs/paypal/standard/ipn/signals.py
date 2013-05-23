@@ -21,6 +21,9 @@ subscription_eot = Signal()
 # Sent when a subscription was modified.
 subscription_modify = Signal()
 
+# Sent when a subscription payment was made.
+subscription_payment = Signal()
+
 # Sent when a subscription is created.
 subscription_signup = Signal()
 

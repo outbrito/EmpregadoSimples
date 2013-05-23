@@ -12,18 +12,19 @@ import cStringIO as StringIO
 from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 # Project Imports
-import ho.pisa as pisa
+import xhtml2pdf.pisa as pisa
 from cgi import escape
 
 
 def render_to_pdf(template_src, context_dict):
-    template = get_template(template_src)
-    context = Context(context_dict)
-    html  = template.render(context)
+#    template = get_template(template_src)
+#    context = Context(context_dict)
+    html  = render_to_string(template_src, context_dict)
+    print html
     result = StringIO.StringIO()
-    
-    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")),
+    pdf = pisa.CreatePDF(StringIO.StringIO(html.encode("UTF-8")),
                                             dest=result,
                                             encoding='UTF-8',
                                             link_callback=fetch_resources)
